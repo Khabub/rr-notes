@@ -13,7 +13,11 @@ const CardNote = (props: Props): JSX.Element => {
       </div>
       <div className="right-side-buttons">
         <Button
-          sx={{ scale: "80%", translate: "7px" }}
+          sx={{
+            scale: "80%",
+            translate: "7px",
+            "@media (max-width: 320px)": { translate: 0 },
+          }}
           size="small"
           color="warning"
           variant="outlined"
@@ -21,7 +25,7 @@ const CardNote = (props: Props): JSX.Element => {
           Edit
         </Button>
         <Button
-          sx={{            
+          sx={{
             borderTopRightRadius: "15px",
             scale: "80%",
           }}
@@ -34,7 +38,7 @@ const CardNote = (props: Props): JSX.Element => {
       </div>
       <div>
         <h2>Nadpis poznamky</h2>
-        <p>
+        <p className="note-content">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit
           sapiente quibusdam voluptatem molestias enim et minima quia, numquam
           quasi! Est quisquam reiciendis alias! Eius porro at culpa obcaecati
@@ -51,20 +55,25 @@ const Container = styled.div`
   padding: 1rem;
   display: flex;
   position: relative;
-  width: 400px;
-  border: 1px solid #000;
+  width: 80vw;
+  max-width: 400px;
+  border: 2px solid #4ffa00;
   border-radius: 15px;
   box-shadow: 5px 5px 10px 5px grey;
+  margin-bottom: 1rem; 
 
-  p {
-    width: 300px;
+  .note-content {
+    width: 65vw;
+    max-width: 380px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin: 0.2rem 0 0.8rem;
   }
 
   h2 {
     font-size: 1.2rem;
+    margin: 0;  
   }
 
   .right-side-date {
@@ -79,6 +88,14 @@ const Container = styled.div`
     position: absolute;
     right: 0;
     top: 2px;
-    
+  }
+
+  @media (max-width: 320px) {
+    .right-side-buttons {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      justify-content: center;
+    }
   }
 `;

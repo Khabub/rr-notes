@@ -5,7 +5,6 @@ import {
   RadioGroup,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
 import styled from "styled-components";
 
 interface Props {
@@ -20,12 +19,16 @@ const InputForm = (props: Props): JSX.Element => {
   return (
     <Container onSubmit={handleSubmit}>
       <h1>Enter a note</h1>
-      <div>
-        <TextField type="text" placeholder="Heading" />
+      <div className="input-textfield">
+        <TextField
+          inputProps={{ maxLength: 15 }}
+          type="text"
+          placeholder="Heading"          
+        />
         <TextField
           sx={{ marginTop: "1rem" }}
           multiline
-          rows={5}
+          rows={3}
           type="text"
           placeholder="Note..."
         />
@@ -91,11 +94,11 @@ const InputForm = (props: Props): JSX.Element => {
 export default InputForm;
 
 const Container = styled.form`
-  width: 500px;
-  margin: 2rem auto;
+  width: 90vw;
+  max-width: 500px;
   text-align: center;
 
-  & > div {
+  .input-textfield, .send-form {
     display: flex;
     flex-direction: column;
   }
@@ -105,7 +108,8 @@ const RadioGroupSC = styled(RadioGroup)`
   && {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     margin: 0.5rem 0;
   }
 `;
