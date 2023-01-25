@@ -1,29 +1,15 @@
-import InputForm from "./components/Main/InputForm";
 import styled from "styled-components";
 import NotesWindow from "./components/Main/NotesWindow";
-import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
-import { useState } from "react";
+import MainWindow from "./components/Main/MainWindow";
+import { useAppSelector } from "./components/hooks/redux";
+import { showCancelInputState } from "./components/reducers/createInputSlice";
 
 const App = (): JSX.Element => {
-  const [createNote, setCreateNote] = useState<boolean>(false);
-
-  const noteHandler = () => {
-    setCreateNote((prev) => !prev);
-  };
+  const inputClose = useAppSelector(showCancelInputState);
 
   return (
-    <Container>
-      <FabSC
-        noteiconshow={createNote.toString()}
-        onClick={noteHandler}
-        color="primary"
-        aria-label="add"
-      >
-        <AddIcon />
-      </FabSC>
-
-      {createNote && <InputForm />}
+    <Container inputClose={inputClose}>
+      <MainWindow />
       <NotesWindow />
     </Container>
   );
@@ -31,20 +17,16 @@ const App = (): JSX.Element => {
 
 export default App;
 
-const Container = styled.div`
+const Container = styled.div<{ inputClose: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
+  animation: ${({ inputClose }) => (inputClose ? "hideM 0.5s ease-out" : "none")};
 
-const FabSC = styled(Fab)<{ noteiconshow: string }>`
-  && {
-    position: fixed;
-    bottom: 16px;
-    right: 16px;
-
-    display: ${({ noteiconshow }) =>
-      noteiconshow === "true" ? "none" : "inherit"};
+  @keyframes hideM {
+    to {
+      transform: translateY(-389px);
+    }
   }
 `;

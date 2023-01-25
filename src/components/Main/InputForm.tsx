@@ -7,19 +7,50 @@ import {
   TextField,
 } from "@mui/material";
 import styled from "styled-components";
+import CloseIcon from "@mui/icons-material/Close";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import {
+  setCancelInput,
+  setShowInput,
+  showCancelInputState,
+  showShowInputState,
+} from "../reducers/createInputSlice";
+import { useEffect } from "react";
 
 interface Props {
   children?: React.ReactNode;
 }
 
 const InputForm = (props: Props): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const inputClose = useAppSelector(showCancelInputState);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
 
+  const cancelHandle = () => {
+    dispatch(setCancelInput(true));
+  };
+
+  useEffect(() => {
+    if (inputClose) {
+      setTimeout(() => {
+        dispatch(setShowInput(false));
+        dispatch(setCancelInput(false));
+      }, 450);
+    }
+  });
+
   return (
     <Container onSubmit={handleSubmit}>
       <h1 className="input-heading-h1">Enter a note</h1>
+      <div className="close-input-window">
+        <Button>
+          <CloseIcon color="error" onClick={cancelHandle} />
+        </Button>
+      </div>
+
       <div className="input-textfield">
         <TextField
           inputProps={{ maxLength: 15 }}
@@ -123,6 +154,12 @@ const Container = styled.form`
   .send-form {
     display: flex;
     flex-direction: column;
+  }
+
+  .close-input-window {
+    position: absolute;
+    right: 0px;
+    top: 15px;
   }
 `;
 
