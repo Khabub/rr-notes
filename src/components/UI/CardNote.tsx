@@ -37,7 +37,7 @@ const CardNote = (props: Props): JSX.Element => {
         </Button>
       </div>
       <div>
-        <h2>Nadpis poznamky</h2>
+        <h2 className="note-heading-h2">Nadpis poznamky</h2>
         <p className="note-content">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit
           sapiente quibusdam voluptatem molestias enim et minima quia, numquam
@@ -60,20 +60,20 @@ const Container = styled.div`
   border: 2px solid #4ffa00;
   border-radius: 15px;
   box-shadow: 5px 5px 10px 5px grey;
-  margin-bottom: 1rem; 
+  margin-bottom: 1rem;
 
   .note-content {
-    width: 65vw;
+    width: 79vw;
     max-width: 380px;
-    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    max-height: 50px;
+    font-size: 0.9rem;    
     margin: 0.2rem 0 0.8rem;
   }
 
-  h2 {
+  .note-heading-h2 {
     font-size: 1.2rem;
-    margin: 0;  
+    margin: 0;
   }
 
   .right-side-date {
@@ -81,7 +81,7 @@ const Container = styled.div`
     position: absolute;
     font-style: italic;
     right: 10px;
-    bottom: 8px;
+    bottom: 5px;
   }
 
   .right-side-buttons {
@@ -96,6 +96,11 @@ const Container = styled.div`
       flex-direction: column-reverse;
       align-items: center;
       justify-content: center;
+    }
+
+    .note-content {
+      width: 65vw;
+      max-width: 380px;
     }
   }
 `;

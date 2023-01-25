@@ -1,5 +1,6 @@
 import {
   Button,
+  Divider,
   FormControlLabel,
   Radio,
   RadioGroup,
@@ -18,12 +19,12 @@ const InputForm = (props: Props): JSX.Element => {
 
   return (
     <Container onSubmit={handleSubmit}>
-      <h1>Enter a note</h1>
+      <h1 className="input-heading-h1">Enter a note</h1>
       <div className="input-textfield">
         <TextField
           inputProps={{ maxLength: 15 }}
           type="text"
-          placeholder="Heading"          
+          placeholder="Heading (max 15 characters)"
         />
         <TextField
           sx={{ marginTop: "1rem" }}
@@ -84,9 +85,10 @@ const InputForm = (props: Props): JSX.Element => {
 
       <div className="send-form">
         <Button variant="contained" color="secondary" type="submit">
-          Send
+          Create note
         </Button>
       </div>
+      <Divider sx={{ margin: "1rem 0 0" }} variant="middle" />
     </Container>
   );
 };
@@ -97,8 +99,28 @@ const Container = styled.form`
   width: 90vw;
   max-width: 500px;
   text-align: center;
+  animation: createNoteShow 0.5s ease-in;
 
-  .input-textfield, .send-form {
+  @keyframes createNoteShow {
+    0% {
+      height: 0;
+      opacity: 0;
+    }
+    60% {
+      opacity: 0;
+      height: 389px;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .input-heading-h1 {
+    font-size: 1.5rem;
+  }
+
+  .input-textfield,
+  .send-form {
     display: flex;
     flex-direction: column;
   }
