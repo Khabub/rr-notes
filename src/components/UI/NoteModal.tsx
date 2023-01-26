@@ -34,7 +34,8 @@ const Container = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 6;  
+  z-index: 1600;  
+  
 `;
 
 const ContainerBG = styled.div`
@@ -44,6 +45,16 @@ const ContainerBG = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(2px);
-  z-index: 5;  
+  backdrop-filter: blur(3px);
+  z-index: 1500;  
+  animation: modalShow 0.3s ease-in;
+
+  @keyframes modalShow {
+    from {
+      backdrop-filter: blur(0);
+    }
+    to {
+      backdrop-filter: blur(3px);
+    }
+  }
 `;

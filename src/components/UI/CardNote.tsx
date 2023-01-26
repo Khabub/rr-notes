@@ -4,7 +4,7 @@ import styled from "styled-components";
 import NoteDetailModal from "./NoteDetailModal";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { openNoteModal, showNoteModal } from "../reducers/modalSlice";
-import { NoteList } from "../store/notes-list";
+import { NoteList } from "../reducers/notesListSlice";
 
 interface Props extends NoteList{
   children?: React.ReactNode;

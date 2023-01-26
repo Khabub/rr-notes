@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import styled from "styled-components";
-import { NoteList } from "../store/notes-list";
+import { NoteList } from "../reducers/notesListSlice";
 import NoteModal from "./NoteModal";
 
 interface Props {
@@ -9,6 +9,9 @@ interface Props {
 }
  
 const NoteDetailModal = (props: Props): JSX.Element => {
+  
+
+
   
   return (
     <NoteModal>
@@ -63,7 +66,17 @@ const Container = styled.div<Pick<NoteList, "importance">>`
   box-shadow: 5px 5px 10px 5px grey;
   margin-bottom: 1rem;
   background-color: white;
-  
+  animation: modalShow 0.3s ease-in;
+
+  @keyframes modalShow {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+    
   .note-content {
     width: 79vw;
     max-width: 380px;

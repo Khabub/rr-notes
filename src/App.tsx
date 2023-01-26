@@ -6,7 +6,8 @@ import { showCancelInputState } from "./components/reducers/createInputSlice";
 
 const App = (): JSX.Element => {
   const inputClose = useAppSelector(showCancelInputState);
-
+  
+  
   return (
     <Container inputClose={inputClose}>
       <MainWindow />

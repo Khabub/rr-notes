@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { useAppSelector } from "../hooks/redux";
+import { useAppSelector, useAppDispatch } from "../hooks/redux";
 import { showNoteModal } from "../reducers/modalSlice";
 import CardNote from "../UI/CardNote";
 import NoteDetailModal from "../UI/NoteDetailModal";
-import { NoteList, notesList } from "../store/notes-list";
+import { NoteList, notesList } from "../reducers/notesListSlice";
+import { setShowInput } from "../reducers/createInputSlice";
 
 interface Props {
   children?: React.ReactNode;
@@ -12,29 +13,36 @@ interface Props {
 
 const NotesWindow = (props: Props): JSX.Element => {
   const [data, setData] = useState<NoteList>();
-  
-  const noteDetail = useAppSelector(showNoteModal);
+
+  const noteDetail = useAppSelector(showNoteModal);  
 
   const dataHandler = (val: NoteList) => {
-    setData(val);    
+    setData(val);
   };
-
-  const list = notesList.map((val, index) => (
-    <CardNote
-      key={index}      
-      onClickNote={dataHandler.bind(null, val)}
-      {...val}
-    ></CardNote>
-  ));
 
   return (
     <Container>
-      <div>
-        {noteDetail && <NoteDetailModal data={data!} />}
-        <h1 className="note-heading-h1">Your saved notes</h1>
-        <p className="note-info">(click on a note to show it)</p>
+      {noteDetail && <NoteDetailModal data={data!} />}
+      {notesList.length ? (
+        <div>
+          <h1 className="note-heading-h1">Your saved notes</h1>
+          <p className="note-info">(click on a note to show it)</p>
+        </div>
+      ) : (
+        <div>
+          <h1 className="note-heading-h1">Empty list</h1>
+          <p className="note-info">(add note with plus button)</p>
+        </div>
+      )}
+      <div className="notes-wrap">
+        {notesList.map((val, index) => (
+          <CardNote
+            key={index}
+            onClickNote={dataHandler.bind(null, val)}
+            {...val}
+          ></CardNote>
+        ))}
       </div>
-      <div className="notes-wrap">{list}</div>
     </Container>
   );
 };
@@ -60,6 +68,7 @@ const Container = styled.div`
   .note-info {
     margin: 0;
     padding: 0;
+    text-align: center;
   }
 
   .note-heading-h1 {
@@ -68,7 +77,6 @@ const Container = styled.div`
   }
 
   .note-info {
-    text-align: center;
     margin-bottom: 1.5rem;
   }
 `;

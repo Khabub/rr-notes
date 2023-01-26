@@ -16,7 +16,7 @@ import {
   showShowInputState,
 } from "../reducers/createInputSlice";
 import { useEffect, useState } from "react";
-import { NoteList, notesList } from "../store/notes-list";
+import { addNote, NoteList, notesList } from "../reducers/notesListSlice";
 
 interface Props {
   children?: React.ReactNode;
@@ -33,14 +33,17 @@ const InputForm = (props: Props): JSX.Element => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    notesList.push({
-      id: 1,
-      heading: heading,
-      note: noteValue,
-      importance: importanceValue,
-      date: new Date(Date.now()).toLocaleString(),
-    });
+    dispatch(
+      addNote([
+        heading,
+        noteValue,
+        importanceValue,
+        new Date(Date.now()).toLocaleString(),
+      ])
+    );   
+    dispatch(setCancelInput(true)); 
   };
+
 
   const cancelHandle = () => {
     dispatch(setCancelInput(true));

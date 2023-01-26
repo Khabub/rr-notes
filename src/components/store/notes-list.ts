@@ -1,5 +1,6 @@
 
-export interface NoteList {
+export {}
+interface NoteList {
   id: number;
   heading: string;
   note: string;
@@ -7,7 +8,7 @@ export interface NoteList {
   date: string;
 }
 
-export const notesList: NoteList[] = [
+const notesList: NoteList[] = [
   {
     id: 0,
     heading: "Velikost postele",

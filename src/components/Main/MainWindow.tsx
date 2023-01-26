@@ -8,6 +8,7 @@ import {
   showCancelInputState,
   showShowInputState,
 } from "../reducers/createInputSlice";
+import NotesWindow from "./NotesWindow";
 
 const MainWindow = (): JSX.Element => {
   const showInput = useAppSelector(showShowInputState);
@@ -30,6 +31,7 @@ const MainWindow = (): JSX.Element => {
       </FabSC>
 
       {showInput && <InputForm />}
+      
     </Container>
   );
 };
