@@ -1,49 +1,32 @@
 import { Button } from "@mui/material";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import NoteDetailModal from "./NoteDetailModal";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { openNoteModal, showNoteModal } from "../reducers/modalSlice";
+import { NoteList } from "../store/notes-list";
 
-interface Props {
+interface Props extends NoteList{
   children?: React.ReactNode;
+  onClickNote: () => void;
 }
 
 const CardNote = (props: Props): JSX.Element => {
+  const dispatch = useAppDispatch();
+
+  const handleClick = () => {
+    props.onClickNote();
+    dispatch(openNoteModal());
+  };
+
   return (
-    <Container>
+    <Container importance={props.importance} onClick={handleClick}>
       <div className="right-side-date">
-        <span>24.01.2023 15:44</span>
-      </div>
-      <div className="right-side-buttons">
-        <Button
-          sx={{
-            scale: "80%",
-            translate: "7px",
-            "@media (max-width: 320px)": { translate: 0 },
-          }}
-          size="small"
-          color="warning"
-          variant="outlined"
-        >
-          Edit
-        </Button>
-        <Button
-          sx={{
-            borderTopRightRadius: "15px",
-            scale: "80%",
-          }}
-          size="small"
-          color="error"
-          variant="contained"
-        >
-          Delete
-        </Button>
+        <span>{props.date}</span>
       </div>
       <div>
-        <h2 className="note-heading-h2">Nadpis poznamky</h2>
-        <p className="note-content">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit
-          sapiente quibusdam voluptatem molestias enim et minima quia, numquam
-          quasi! Est quisquam reiciendis alias! Eius porro at culpa obcaecati
-          dolore impedit.
-        </p>
+        <h2 className="note-heading-h2">{props.heading}</h2>
+        <p className="note-content">{props.note}</p>
       </div>
     </Container>
   );
@@ -51,13 +34,14 @@ const CardNote = (props: Props): JSX.Element => {
 
 export default CardNote;
 
-const Container = styled.div`
+const Container = styled.div<Pick<NoteList, "importance">>`
   padding: 1rem;
   display: flex;
   position: relative;
   width: 80vw;
   max-width: 400px;
-  border: 2px solid #4ffa00;
+  border: 2px solid;
+  border-color: ${({importance}) => importance};
   border-radius: 15px;
   box-shadow: 5px 5px 10px 5px grey;
   margin-bottom: 1rem;
@@ -67,7 +51,7 @@ const Container = styled.div`
     max-width: 380px;
     overflow: hidden;
     max-height: 50px;
-    font-size: 0.9rem;    
+    font-size: 0.9rem;
     margin: 0.2rem 0 0.8rem;
   }
 

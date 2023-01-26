@@ -15,22 +15,47 @@ import {
   showCancelInputState,
   showShowInputState,
 } from "../reducers/createInputSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { NoteList, notesList } from "../store/notes-list";
 
 interface Props {
   children?: React.ReactNode;
 }
 
 const InputForm = (props: Props): JSX.Element => {
+  const [heading, setHeading] = useState<string>("");
+  const [noteValue, setNoteValue] = useState<string>("");
+  const [importanceValue, setImportanceValue] = useState<string>("green");
+
   const dispatch = useAppDispatch();
   const inputClose = useAppSelector(showCancelInputState);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    notesList.push({
+      id: 1,
+      heading: heading,
+      note: noteValue,
+      importance: importanceValue,
+      date: new Date(Date.now()).toLocaleString(),
+    });
   };
 
   const cancelHandle = () => {
     dispatch(setCancelInput(true));
+  };
+
+  const headingHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setHeading(e.target.value);
+  };
+
+  const noteHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNoteValue(e.target.value);
+  };
+
+  const importanceHandler = (event: React.SyntheticEvent<Element, Event>) => {
+    setImportanceValue((event.target as HTMLInputElement).value);
   };
 
   useEffect(() => {
@@ -53,9 +78,11 @@ const InputForm = (props: Props): JSX.Element => {
 
       <div className="input-textfield">
         <TextField
-          inputProps={{ maxLength: 15 }}
+          inputProps={{ maxLength: 20 }}
           type="text"
-          placeholder="Heading (max 15 characters)"
+          placeholder="Heading (max 20 characters)"
+          value={heading}
+          onChange={headingHandler}
         />
         <TextField
           sx={{ marginTop: "1rem" }}
@@ -63,10 +90,12 @@ const InputForm = (props: Props): JSX.Element => {
           rows={3}
           type="text"
           placeholder="Note..."
+          value={noteValue}
+          onChange={noteHandler}
         />
       </div>
 
-      <RadioGroupSC>
+      <RadioGroupSC value={importanceValue} onChange={importanceHandler}>
         <FormControlLabel
           control={
             <Radio
@@ -80,7 +109,7 @@ const InputForm = (props: Props): JSX.Element => {
           }
           label="Very important"
           labelPlacement="end"
-          value="veryimportant"
+          value="red"
         />
         <FormControlLabel
           control={
@@ -95,7 +124,7 @@ const InputForm = (props: Props): JSX.Element => {
           }
           label="Important"
           labelPlacement="end"
-          value="important"
+          value="orange"
         />
         <FormControlLabel
           control={
@@ -110,7 +139,7 @@ const InputForm = (props: Props): JSX.Element => {
           }
           label="Not so important"
           labelPlacement="end"
-          value="notsoimportant"
+          value="green"
         />
       </RadioGroupSC>
 
