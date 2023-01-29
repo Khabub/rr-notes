@@ -1,24 +1,27 @@
 import { Button } from "@mui/material";
 import styled from "styled-components";
-import { NoteList, removeNote } from "../reducers/notesListSlice";
+import { addIDNote, NoteList, removeNote } from "../reducers/notesListSlice";
 import NoteModal from "./NoteModal";
 import { useAppDispatch } from "../hooks/redux";
+import { setEditNote } from "../reducers/createInputSlice";
 
 interface Props {
   children?: React.ReactNode;
   data: NoteList;
 }
- 
+
 const NoteDetailModal = (props: Props): JSX.Element => {
   const dispatch = useAppDispatch();
-  
+
   const removeNoteHandler = () => {
     dispatch(removeNote(props.data.id as number));
+  };
 
-  }
+  const editNoteHandler = () => {
+    dispatch(setEditNote(true));
+    dispatch(addIDNote(props.data.id as number));
+  };
 
-
-  
   return (
     <NoteModal>
       <Container importance={props.data.importance}>
@@ -27,6 +30,7 @@ const NoteDetailModal = (props: Props): JSX.Element => {
         </div>
         <div className="buttons-edit-del">
           <Button
+            onClick={editNoteHandler}
             sx={{
               scale: "80%",
               translate: "7px",
@@ -34,13 +38,13 @@ const NoteDetailModal = (props: Props): JSX.Element => {
             }}
             size="small"
             color="warning"
-            variant="outlined"          
+            variant="outlined"
           >
             Edit
           </Button>
           <Button
             onClick={removeNoteHandler}
-            sx={{              
+            sx={{
               scale: "80%",
             }}
             size="small"
@@ -68,7 +72,7 @@ const Container = styled.div<Pick<NoteList, "importance">>`
   width: 80vw;
   max-width: 400px;
   border: 2px solid;
-  border-color: ${({importance}) => importance};
+  border-color: ${({ importance }) => importance};
   border-radius: 15px;
   box-shadow: 5px 5px 10px 5px grey;
   margin-bottom: 1rem;
@@ -83,13 +87,13 @@ const Container = styled.div<Pick<NoteList, "importance">>`
       opacity: 1;
     }
   }
-    
+
   .note-content {
     width: 79vw;
     max-width: 380px;
-    overflow: hidden;    
+    overflow: hidden;
     font-size: 0.9rem;
-    margin: 0.2rem 0 5rem;    
+    margin: 0.2rem 0 5rem;
   }
 
   .note-heading-h2 {
@@ -109,8 +113,6 @@ const Container = styled.div<Pick<NoteList, "importance">>`
   .buttons-edit-del {
     position: absolute;
     left: 0;
-    bottom: 7px;        
+    bottom: 7px;
   }
-
-
 `;

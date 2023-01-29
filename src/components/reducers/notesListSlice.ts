@@ -7,8 +7,11 @@ export interface NoteList {
   note: string;
   importance: string;
   date: string;
-  length?: number;  
+  length?: number;
   added?: boolean;
+  edited?: boolean;
+  deletedNote?: boolean;
+  idNote?: number;
 }
 
 const notesListInitial: NoteList = {
@@ -16,12 +19,17 @@ const notesListInitial: NoteList = {
   heading: "",
   note: "",
   importance: "",
-  date: new Date().toLocaleString(), 
+  date: new Date().toLocaleString(),
 };
 
-
-
 export let notesList: NoteList[] = [];
+
+const updateId = () => {
+  let currentIndex = 0;
+  notesList = notesList.map((note) => {
+    return { ...note, id: currentIndex++ };
+  });
+};
 
 const notesListSlice = createSlice({
   name: "notesList",
@@ -39,13 +47,28 @@ const notesListSlice = createSlice({
       date = action.payload.date;
 
       notesList.unshift({ id, heading, note, importance, date });
-      let currentIndex = 0;
-      notesList = notesList.map((note) => {
-        return { ...note, id: currentIndex++ };
-      });
+      updateId();
       window.localStorage.setItem("noteList", JSON.stringify(notesList));
       added = true;
-      return { id, heading, note, importance, date, added, notesList };      
+      return { id, heading, note, importance, date, added, notesList };
+    },
+
+    editNote: (state, action: PayloadAction<Omit<NoteList, "date">>) => {
+      notesList = notesList.map((item) => {
+        if (item.id === action.payload.id) {
+          return {
+            id: action.payload.id,
+            heading: action.payload.heading,
+            note: action.payload.note,
+            importance: action.payload.importance,
+            date: item.date,
+          };
+        }
+        return item;
+      });
+
+      window.localStorage.setItem("noteList", JSON.stringify(notesList));
+      state.edited = true;
     },
 
     removeNote: (state, action: PayloadAction<number>) => {
@@ -53,12 +76,10 @@ const notesListSlice = createSlice({
         window.localStorage.setItem("noteList", JSON.stringify([]));
       }
       notesList = notesList.filter((note) => note.id !== action.payload);
-      let currentIndex = 0;
-      notesList = notesList.map((note) => {
-        return { ...note, id: currentIndex++ };
-      });
+      updateId();
       window.localStorage.setItem("noteList", JSON.stringify(notesList));
-      return { ...state, notesList };
+
+      return { ...state, notesList, deletedNote: true };
     },
 
     loadNotes: (state, action: PayloadAction<NoteList[]>) => {
@@ -68,14 +89,23 @@ const notesListSlice = createSlice({
 
     setAdded: (state) => {
       state.added = false;
-        }
+      state.edited = false;
+      state.deletedNote = false;
+    },
 
-
+    addIDNote: (state, action: PayloadAction<number>) => {
+      state.idNote = action.payload;
+    },
   },
 });
 
-export const { addNote, removeNote, loadNotes, setAdded } = notesListSlice.actions;
+export const { addNote, removeNote, loadNotes, setAdded, addIDNote, editNote } =
+  notesListSlice.actions;
 
 export const isNoteCreated = (state: RootState) => state.notesListing.added;
+export const isNoteEdited = (state: RootState) => state.notesListing.edited;
+export const isNoteDeleted = (state: RootState) =>
+  state.notesListing.deletedNote;
+export const getIdNote = (state: RootState) => state.notesListing.idNote;
 
 export default notesListSlice.reducer;

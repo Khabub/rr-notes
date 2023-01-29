@@ -1,11 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import { useAppSelector, useAppDispatch } from "../hooks/redux";
+import { useAppSelector } from "../hooks/redux";
 import { showNoteModal } from "../reducers/modalSlice";
 import CardNote from "../UI/CardNote";
 import NoteDetailModal from "../UI/NoteDetailModal";
 import { NoteList } from "../reducers/notesListSlice";
-import { setShowInput } from "../reducers/createInputSlice";
 import { notesList } from "../reducers/notesListSlice";
 
 interface Props {
@@ -15,7 +14,7 @@ interface Props {
 const NotesWindow = (props: Props): JSX.Element => {
   const [data, setData] = useState<NoteList>();
 
-  const noteDetail = useAppSelector(showNoteModal);  
+  const noteDetail = useAppSelector(showNoteModal);
 
   const dataHandler = (val: NoteList) => {
     setData(val);

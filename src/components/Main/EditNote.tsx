@@ -12,35 +12,41 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import {
   setCancelInput,
-  setShowInput,
+  setEditNote,
   showCancelInputState,
 } from "../reducers/createInputSlice";
 import { useEffect, useState } from "react";
-import { addNote } from "../reducers/notesListSlice";
+import { editNote, getIdNote, notesList } from "../reducers/notesListSlice";
 import { useLoadNotes } from "../hooks/useLoadNotes";
 
 interface Props {
   children?: React.ReactNode;
 }
 
-const InputForm = (props: Props): JSX.Element => {
-  const [heading, setHeading] = useState<string>("");
-  const [note, setNote] = useState<string>("");
-  const [importance, setImportance] = useState<string>("green");
+const EditNote = (props: Props): JSX.Element => {
   const { load } = useLoadNotes();
 
   const dispatch = useAppDispatch();
   const inputClose = useAppSelector(showCancelInputState);
+  const getIdNoteValue = useAppSelector(getIdNote) as number;
+
+  const [heading, setHeading] = useState<string>(
+    notesList[getIdNoteValue].heading
+  );
+  const [note, setNote] = useState<string>(notesList[getIdNoteValue].note);
+  const [importance, setImportance] = useState<string>(
+    notesList[getIdNoteValue].importance
+  );
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     dispatch(
-      addNote({
+      editNote({
+        id: getIdNoteValue,
         heading,
         note,
         importance,
-        date: new Date(Date.now()).toLocaleString(),
       })
     );
 
@@ -68,7 +74,7 @@ const InputForm = (props: Props): JSX.Element => {
   useEffect(() => {
     if (inputClose) {
       setTimeout(() => {
-        dispatch(setShowInput(false));
+        dispatch(setEditNote(false));
         dispatch(setCancelInput(false));
       }, 450);
     }
@@ -76,7 +82,7 @@ const InputForm = (props: Props): JSX.Element => {
 
   return (
     <Container onSubmit={handleSubmit}>
-      <h1 className="input-heading-h1">Enter a note</h1>
+      <h1 className="input-heading-h1">Edit a note</h1>
       <div className="close-input-window">
         <Button>
           <CloseIcon color="error" onClick={cancelHandle} />
@@ -152,7 +158,7 @@ const InputForm = (props: Props): JSX.Element => {
 
       <div className="send-form">
         <Button variant="contained" color="secondary" type="submit">
-          Create note
+          Edit note
         </Button>
       </div>
       <Divider sx={{ margin: "1rem 0 0" }} variant="middle" />
@@ -160,7 +166,7 @@ const InputForm = (props: Props): JSX.Element => {
   );
 };
 
-export default InputForm;
+export default EditNote;
 
 const Container = styled.form`
   width: 90vw;

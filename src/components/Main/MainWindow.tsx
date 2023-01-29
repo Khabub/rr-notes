@@ -5,14 +5,16 @@ import AddIcon from "@mui/icons-material/Add";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import {
   setShowInput,
-  showCancelInputState,
+  showCancelInputState,  
+  showEditNoteState,
   showShowInputState,
 } from "../reducers/createInputSlice";
-import NotesWindow from "./NotesWindow";
 import { setAdded } from "../reducers/notesListSlice";
+import EditNote from "./EditNote";
 
 const MainWindow = (): JSX.Element => {
   const showInput = useAppSelector(showShowInputState);
+  const showEditNote = useAppSelector(showEditNoteState);
   const dispatch = useAppDispatch();
   const inputClose = useAppSelector(showCancelInputState);
 
@@ -33,7 +35,7 @@ const MainWindow = (): JSX.Element => {
       </FabSC>
 
       {showInput && <InputForm />}
-      
+      {showEditNote && <EditNote />}
     </Container>
   );
 };
@@ -45,13 +47,13 @@ const Container = styled.div<{ inputClose: boolean }>`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  animation: ${({ inputClose }) => (inputClose ? "hide 0.5s ease-out" : "none")};
+  animation: ${({ inputClose }) =>
+    inputClose ? "hide 0.5s ease-out" : "none"};
 
   @keyframes hide {
     from {
       opacity: 1;
     }
-
     to {
       opacity: 0;
     }
@@ -61,8 +63,8 @@ const Container = styled.div<{ inputClose: boolean }>`
 const FabSC = styled(Fab)<{ noteiconshow: string }>`
   && {
     position: fixed;
-    bottom: 32px;
-    right: 32px;
+    bottom: 64px;
+    right: 48px;
 
     display: ${({ noteiconshow }) =>
       noteiconshow === "true" ? "none" : "inherit"};

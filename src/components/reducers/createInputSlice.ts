@@ -7,6 +7,8 @@ export interface CreateNoteInterface {
 
   showInputState: boolean;
   setShowInputState: boolean;
+  showEditNote: boolean;
+  setShowEditNote: boolean;
 }
 
 const createNoteInterface: CreateNoteInterface = {
@@ -15,6 +17,8 @@ const createNoteInterface: CreateNoteInterface = {
 
   showInputState: false,
   setShowInputState: false,
+  showEditNote: false,
+  setShowEditNote: false,
 };
 
 const createInputSlice = createSlice({
@@ -33,12 +37,28 @@ const createInputSlice = createSlice({
     setShowInput: (state, action: PayloadAction<boolean>) => {
       state.showInputState = action.payload;
     },
+    showEditNote: (state) => {
+      state.showEditNote = false;
+    },
+    setEditNote: (state, action: PayloadAction<boolean>) => {
+      state.showEditNote = action.payload;
+    },
   },
 });
 
-export const { cancelInput, setCancelInput, showInput, setShowInput } = createInputSlice.actions;
+export const {
+  cancelInput,
+  setCancelInput,
+  showInput,
+  setShowInput,
+  showEditNote,
+  setEditNote,
+} = createInputSlice.actions;
 
-export const showCancelInputState = (state: RootState) => state.createInput.cancelInputState;
-export const showShowInputState = (state: RootState) => state.createInput.showInputState;
+export const showCancelInputState = (state: RootState) =>
+  state.createInput.cancelInputState;
+export const showShowInputState = (state: RootState) =>
+  state.createInput.showInputState;
+export const showEditNoteState = (state: RootState) => state.createInput.showEditNote;
 
 export default createInputSlice.reducer;

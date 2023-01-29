@@ -1,12 +1,9 @@
-import { Button } from "@mui/material";
-import { useEffect, useState } from "react";
 import styled from "styled-components";
-import NoteDetailModal from "./NoteDetailModal";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { openNoteModal, showNoteModal } from "../reducers/modalSlice";
+import { useAppDispatch } from "../hooks/redux";
+import { openNoteModal } from "../reducers/modalSlice";
 import { NoteList } from "../reducers/notesListSlice";
 
-interface Props extends NoteList{
+interface Props extends NoteList {
   children?: React.ReactNode;
   onClickNote: () => void;
 }
@@ -41,7 +38,7 @@ const Container = styled.div<Pick<NoteList, "importance">>`
   width: 80vw;
   max-width: 400px;
   border: 2px solid;
-  border-color: ${({importance}) => importance};
+  border-color: ${({ importance }) => importance};
   border-radius: 15px;
   box-shadow: 5px 5px 10px 5px grey;
   margin-bottom: 1rem;
