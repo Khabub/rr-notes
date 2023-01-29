@@ -9,6 +9,7 @@ import {
   showShowInputState,
 } from "../reducers/createInputSlice";
 import NotesWindow from "./NotesWindow";
+import { setAdded } from "../reducers/notesListSlice";
 
 const MainWindow = (): JSX.Element => {
   const showInput = useAppSelector(showShowInputState);
@@ -17,6 +18,7 @@ const MainWindow = (): JSX.Element => {
 
   const noteHandler = () => {
     dispatch(setShowInput(true));
+    dispatch(setAdded());
   };
 
   return (

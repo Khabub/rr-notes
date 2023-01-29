@@ -1,11 +1,15 @@
+import React from "react";
 import {
   Button,
   Divider,
   FormControlLabel,
+  IconButton,
   Radio,
   RadioGroup,
+  Snackbar,
   TextField,
 } from "@mui/material";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import styled from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
@@ -18,7 +22,6 @@ import {
 import { useEffect, useState } from "react";
 import { addNote, NoteList } from "../reducers/notesListSlice";
 import { useLoadNotes } from "../hooks/useLoadNotes";
-
 
 interface Props {
   children?: React.ReactNode;
@@ -37,18 +40,17 @@ const InputForm = (props: Props): JSX.Element => {
     e.preventDefault();
 
     dispatch(
-      addNote({        
+      addNote({
         heading,
         note,
         importance,
         date: new Date(Date.now()).toLocaleString(),
       })
     );
-    if (load){
+
+    if (load) {
       dispatch(setCancelInput(true));
-
     }
-
   };
 
   const cancelHandle = () => {

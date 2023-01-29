@@ -7,7 +7,8 @@ export interface NoteList {
   note: string;
   importance: string;
   date: string;
-  length?: number;
+  length?: number;  
+  added?: boolean;
 }
 
 const notesListInitial: NoteList = {
@@ -15,8 +16,10 @@ const notesListInitial: NoteList = {
   heading: "",
   note: "",
   importance: "",
-  date: new Date().toLocaleString(),
+  date: new Date().toLocaleString(), 
 };
+
+
 
 export let notesList: NoteList[] = [];
 
@@ -25,7 +28,7 @@ const notesListSlice = createSlice({
   initialState: notesListInitial,
   reducers: {
     addNote: (
-      { id, heading, note, importance, date, length },
+      { id, heading, note, importance, date, length, added },
       action: PayloadAction<NoteList>
     ) => {
       length === 0 ? (id = 0) : (id = length! - 1 + 1);
@@ -36,8 +39,15 @@ const notesListSlice = createSlice({
       date = action.payload.date;
 
       notesList.unshift({ id, heading, note, importance, date });
+      let currentIndex = 0;
+      notesList = notesList.map((note) => {
+        return { ...note, id: currentIndex++ };
+      });
       window.localStorage.setItem("noteList", JSON.stringify(notesList));
+      added = true;
+      return { id, heading, note, importance, date, added, notesList };      
     },
+
     removeNote: (state, action: PayloadAction<number>) => {
       if (state.length === 0) {
         window.localStorage.setItem("noteList", JSON.stringify([]));
@@ -50,13 +60,22 @@ const notesListSlice = createSlice({
       window.localStorage.setItem("noteList", JSON.stringify(notesList));
       return { ...state, notesList };
     },
+
     loadNotes: (state, action: PayloadAction<NoteList[]>) => {
       notesList = [...action.payload];
       state.length = notesList.length;
     },
+
+    setAdded: (state) => {
+      state.added = false;
+        }
+
+
   },
 });
 
-export const { addNote, removeNote, loadNotes } = notesListSlice.actions;
+export const { addNote, removeNote, loadNotes, setAdded } = notesListSlice.actions;
+
+export const isNoteCreated = (state: RootState) => state.notesListing.added;
 
 export default notesListSlice.reducer;
