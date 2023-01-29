@@ -16,7 +16,9 @@ import {
   showShowInputState,
 } from "../reducers/createInputSlice";
 import { useEffect, useState } from "react";
-import { addNote, NoteList, notesList } from "../reducers/notesListSlice";
+import { addNote, NoteList } from "../reducers/notesListSlice";
+import { useLoadNotes } from "../hooks/useLoadNotes";
+
 
 interface Props {
   children?: React.ReactNode;
@@ -24,8 +26,9 @@ interface Props {
 
 const InputForm = (props: Props): JSX.Element => {
   const [heading, setHeading] = useState<string>("");
-  const [noteValue, setNoteValue] = useState<string>("");
-  const [importanceValue, setImportanceValue] = useState<string>("green");
+  const [note, setNote] = useState<string>("");
+  const [importance, setImportance] = useState<string>("green");
+  const { load } = useLoadNotes();
 
   const dispatch = useAppDispatch();
   const inputClose = useAppSelector(showCancelInputState);
@@ -34,16 +37,19 @@ const InputForm = (props: Props): JSX.Element => {
     e.preventDefault();
 
     dispatch(
-      addNote([
+      addNote({        
         heading,
-        noteValue,
-        importanceValue,
-        new Date(Date.now()).toLocaleString(),
-      ])
-    );   
-    dispatch(setCancelInput(true)); 
-  };
+        note,
+        importance,
+        date: new Date(Date.now()).toLocaleString(),
+      })
+    );
+    if (load){
+      dispatch(setCancelInput(true));
 
+    }
+
+  };
 
   const cancelHandle = () => {
     dispatch(setCancelInput(true));
@@ -54,11 +60,11 @@ const InputForm = (props: Props): JSX.Element => {
   };
 
   const noteHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNoteValue(e.target.value);
+    setNote(e.target.value);
   };
 
   const importanceHandler = (event: React.SyntheticEvent<Element, Event>) => {
-    setImportanceValue((event.target as HTMLInputElement).value);
+    setImportance((event.target as HTMLInputElement).value);
   };
 
   useEffect(() => {
@@ -93,12 +99,12 @@ const InputForm = (props: Props): JSX.Element => {
           rows={3}
           type="text"
           placeholder="Note..."
-          value={noteValue}
+          value={note}
           onChange={noteHandler}
         />
       </div>
 
-      <RadioGroupSC value={importanceValue} onChange={importanceHandler}>
+      <RadioGroupSC value={importance} onChange={importanceHandler}>
         <FormControlLabel
           control={
             <Radio

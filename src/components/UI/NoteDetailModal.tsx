@@ -1,7 +1,8 @@
 import { Button } from "@mui/material";
 import styled from "styled-components";
-import { NoteList } from "../reducers/notesListSlice";
+import { NoteList, removeNote } from "../reducers/notesListSlice";
 import NoteModal from "./NoteModal";
+import { useAppDispatch } from "../hooks/redux";
 
 interface Props {
   children?: React.ReactNode;
@@ -9,7 +10,12 @@ interface Props {
 }
  
 const NoteDetailModal = (props: Props): JSX.Element => {
+  const dispatch = useAppDispatch();
   
+  const removeNoteHandler = () => {
+    dispatch(removeNote(props.data.id as number));
+
+  }
 
 
   
@@ -33,6 +39,7 @@ const NoteDetailModal = (props: Props): JSX.Element => {
             Edit
           </Button>
           <Button
+            onClick={removeNoteHandler}
             sx={{              
               scale: "80%",
             }}

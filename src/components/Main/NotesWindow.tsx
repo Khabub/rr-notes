@@ -4,8 +4,9 @@ import { useAppSelector, useAppDispatch } from "../hooks/redux";
 import { showNoteModal } from "../reducers/modalSlice";
 import CardNote from "../UI/CardNote";
 import NoteDetailModal from "../UI/NoteDetailModal";
-import { NoteList, notesList } from "../reducers/notesListSlice";
+import { NoteList } from "../reducers/notesListSlice";
 import { setShowInput } from "../reducers/createInputSlice";
+import { notesList } from "../reducers/notesListSlice";
 
 interface Props {
   children?: React.ReactNode;
@@ -31,7 +32,7 @@ const NotesWindow = (props: Props): JSX.Element => {
       ) : (
         <div>
           <h1 className="note-heading-h1">Empty list</h1>
-          <p className="note-info">(add note with plus button)</p>
+          <p className="note-info">(add note)</p>
         </div>
       )}
       <div className="notes-wrap">
