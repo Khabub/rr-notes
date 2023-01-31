@@ -7,15 +7,12 @@ import NoteDetailModal from "../UI/NoteDetailModal";
 import { NoteList } from "../reducers/notesListSlice";
 import { notesList } from "../reducers/notesListSlice";
 
-interface Props {
-  children?: React.ReactNode;
-}
-
-const NotesWindow = (props: Props): JSX.Element => {
+const NotesWindow = (): JSX.Element => {
   const [data, setData] = useState<NoteList>();
 
   const noteDetail = useAppSelector(showNoteModal);
 
+  // Save the note data to "data"
   const dataHandler = (val: NoteList) => {
     setData(val);
   };
@@ -34,6 +31,7 @@ const NotesWindow = (props: Props): JSX.Element => {
           <p className="note-info">(add note)</p>
         </div>
       )}
+      {/* Show a list of notes*/}
       <div className="notes-wrap">
         {notesList.map((val, index) => (
           <CardNote

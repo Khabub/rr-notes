@@ -3,6 +3,7 @@ import React from "react";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import MainContainer from "./components/Main/MainContainer";
 import { useSnackbar } from "./components/hooks/useSnackbar";
+import AlertDialog from "./components/UI/AlertDialog";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -12,24 +13,25 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 const App = (): JSX.Element => {
-  const { chooseSnack, snackColor, snackText, handleClose } = useSnackbar();
+  const { snackProps, handleClose } = useSnackbar();
 
   return (
     <>
       <MainContainer />
       <Snackbar
-        open={chooseSnack}
+        open={snackProps.open}
         autoHideDuration={4000}
         onClose={handleClose}
       >
         <Alert
           onClose={handleClose}
-          severity={snackColor}
+          severity={snackProps.color}
           sx={{ width: "100%" }}
         >
-          {snackText}
+          {snackProps.text}
         </Alert>
       </Snackbar>
+      
     </>
   );
 };

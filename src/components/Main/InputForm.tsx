@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Button,
   Divider,
@@ -15,15 +15,10 @@ import {
   setShowInput,
   showCancelInputState,
 } from "../reducers/createInputSlice";
-import { useEffect, useState } from "react";
 import { addNote } from "../reducers/notesListSlice";
 import { useLoadNotes } from "../hooks/useLoadNotes";
 
-interface Props {
-  children?: React.ReactNode;
-}
-
-const InputForm = (props: Props): JSX.Element => {
+const InputForm = (): JSX.Element => {
   const [heading, setHeading] = useState<string>("");
   const [note, setNote] = useState<string>("");
   const [importance, setImportance] = useState<string>("green");
@@ -32,27 +27,33 @@ const InputForm = (props: Props): JSX.Element => {
   const dispatch = useAppDispatch();
   const inputClose = useAppSelector(showCancelInputState);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // Input the note
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
 
-    dispatch(
-      addNote({
-        heading,
-        note,
-        importance,
-        date: new Date(Date.now()).toLocaleString(),
-      })
-    );
+      dispatch(
+        addNote({
+          heading,
+          note,
+          importance,
+          date: new Date(Date.now()).toLocaleString(),
+        })
+      );
 
-    if (load) {
-      dispatch(setCancelInput(true));
-    }
-  };
+      if (load) {
+        dispatch(setCancelInput(true));
+      }
+    },
+    [dispatch, heading, importance, note, load]
+  );
 
-  const cancelHandle = () => {
+  // Send created note
+  const cancelHandle = useCallback(() => {
     dispatch(setCancelInput(true));
-  };
+  }, [dispatch]);
 
+  // Set the note
   const headingHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHeading(e.target.value);
   };
@@ -65,6 +66,7 @@ const InputForm = (props: Props): JSX.Element => {
     setImportance((event.target as HTMLInputElement).value);
   };
 
+  // Close the input window after 450ms
   useEffect(() => {
     if (inputClose) {
       setTimeout(() => {

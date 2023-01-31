@@ -22,14 +22,22 @@ const notesListInitial: NoteList = {
   date: new Date().toLocaleString(),
 };
 
+// Main list of notes
 export let notesList: NoteList[] = [];
 
+// Update the IDs if the note is created or deleted
 const updateId = () => {
   let currentIndex = 0;
   notesList = notesList.map((note) => {
     return { ...note, id: currentIndex++ };
   });
 };
+
+export interface NoteProps {
+  added: boolean;
+  edited: boolean;
+  deleted: boolean;
+}
 
 const notesListSlice = createSlice({
   name: "notesList",
@@ -102,10 +110,12 @@ const notesListSlice = createSlice({
 export const { addNote, removeNote, loadNotes, setAdded, addIDNote, editNote } =
   notesListSlice.actions;
 
-export const isNoteCreated = (state: RootState) => state.notesListing.added;
-export const isNoteEdited = (state: RootState) => state.notesListing.edited;
-export const isNoteDeleted = (state: RootState) =>
-  state.notesListing.deletedNote;
+export const isNoteProps = (state: RootState): NoteProps => ({
+  added: state.notesListing.added as boolean,
+  edited: state.notesListing.edited as boolean,
+  deleted: state.notesListing.deletedNote as boolean,
+});
+
 export const getIdNote = (state: RootState) => state.notesListing.idNote;
 
 export default notesListSlice.reducer;

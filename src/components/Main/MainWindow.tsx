@@ -25,6 +25,7 @@ const MainWindow = (): JSX.Element => {
 
   return (
     <Container inputClose={inputClose}>
+      {/* Dial button */}
       <FabSC
         noteiconshow={showInput.toString()}
         onClick={noteHandler}
@@ -63,8 +64,8 @@ const Container = styled.div<{ inputClose: boolean }>`
 const FabSC = styled(Fab)<{ noteiconshow: string }>`
   && {
     position: fixed;
-    bottom: 64px;
-    right: 48px;
+    bottom: 32px;
+    right: 32px;
 
     display: ${({ noteiconshow }) =>
       noteiconshow === "true" ? "none" : "inherit"};

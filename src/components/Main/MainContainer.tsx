@@ -7,6 +7,8 @@ import { useLoadNotes } from "../hooks/useLoadNotes";
 
 const MainContainer = (): JSX.Element => {
   const inputClose = useAppSelector(showCancelInputState);
+  
+  // If load is true, show NotesWindow
   const { load } = useLoadNotes();
 
   return (

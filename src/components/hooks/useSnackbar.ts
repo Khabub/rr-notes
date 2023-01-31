@@ -1,38 +1,36 @@
 import { useState, useEffect } from "react";
-import {
-  isNoteCreated,
-  isNoteEdited,
-  isNoteDeleted,
-  setAdded,
-} from "../reducers/notesListSlice";
+import { setAdded, isNoteProps, NoteProps } from "../reducers/notesListSlice";
 import { useAppDispatch, useAppSelector } from "./redux";
 
 type Severity = "success" | "warning" | "error" | undefined;
 
+interface SnackInterface {
+  open: boolean;
+  color: Severity;
+  text: string;
+}
+
+const snackInit: SnackInterface = {
+  open: false,
+  color: "error",
+  text: "",
+};
+
+// custom hook for Snackbar, 3 types of it - created, edited, deleted
 export const useSnackbar = () => {
-  const showSnack = useAppSelector(isNoteCreated) as boolean;
-  const showEditSnack = useAppSelector(isNoteEdited) as boolean;
-  const showDeleteSnack = useAppSelector(isNoteDeleted) as boolean;
-  const [snackText, setSnackText] = useState<string>("");
-  const [chooseSnack, setChooseSnack] = useState<boolean>(false);
-  const [snackColor, setSnackColor] = useState<Severity>("error");
+  const showSnack = useAppSelector<NoteProps>(isNoteProps);
+  const [snackProps, setSnackProps] = useState<SnackInterface>(snackInit);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (showSnack) {
-      setChooseSnack(true);
-      setSnackColor("success");
-      setSnackText("Note created!");
-    } else if (showEditSnack) {
-      setChooseSnack(true);
-      setSnackColor("warning");
-      setSnackText("Note edited!");
-    } else if (showDeleteSnack) {
-      setChooseSnack(true);
-      setSnackColor("error");
-      setSnackText("Note deleted!");
+    if (showSnack.added) {
+      setSnackProps({ open: true, color: "success", text: "Note created!" });
+    } else if (showSnack.edited) {
+      setSnackProps({ open: true, color: "warning", text: "Note edited!" });
+    } else if (showSnack.deleted) {
+      setSnackProps({ open: true, color: "error", text: "Note deleted!" });
     }
-  }, [showEditSnack, showSnack, showDeleteSnack]);
+  }, [showSnack]);
 
   const handleClose = (
     event: React.SyntheticEvent | Event,
@@ -42,13 +40,11 @@ export const useSnackbar = () => {
       return;
     }
     dispatch(setAdded());
-    setChooseSnack(false);
+    setSnackProps((prev) => ({ ...prev, open: false }));
   };
 
   return {
-    chooseSnack,
-    snackColor,
-    snackText,
+    snackProps,
     handleClose,
   };
 };

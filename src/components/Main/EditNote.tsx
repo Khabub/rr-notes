@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   Button,
   Divider,
@@ -19,11 +19,8 @@ import { useEffect, useState } from "react";
 import { editNote, getIdNote, notesList } from "../reducers/notesListSlice";
 import { useLoadNotes } from "../hooks/useLoadNotes";
 
-interface Props {
-  children?: React.ReactNode;
-}
-
-const EditNote = (props: Props): JSX.Element => {
+// Edit the note
+const EditNote = (): JSX.Element => {
   const { load } = useLoadNotes();
 
   const dispatch = useAppDispatch();
@@ -38,27 +35,32 @@ const EditNote = (props: Props): JSX.Element => {
     notesList[getIdNoteValue].importance
   );
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // Send edited note
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
 
-    dispatch(
-      editNote({
-        id: getIdNoteValue,
-        heading,
-        note,
-        importance,
-      })
-    );
+      dispatch(
+        editNote({
+          id: getIdNoteValue,
+          heading,
+          note,
+          importance,
+        })
+      );
 
-    if (load) {
-      dispatch(setCancelInput(true));
-    }
-  };
+      if (load) {
+        dispatch(setCancelInput(true));
+      }
+    },
+    [dispatch, getIdNoteValue, heading, importance, note, load]
+  );
 
-  const cancelHandle = () => {
+  const cancelHandle = useCallback(() => {
     dispatch(setCancelInput(true));
-  };
+  }, [dispatch]);
 
+  // Set the note
   const headingHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHeading(e.target.value);
   };
@@ -71,6 +73,7 @@ const EditNote = (props: Props): JSX.Element => {
     setImportance((event.target as HTMLInputElement).value);
   };
 
+  // Close the input window after 450ms
   useEffect(() => {
     if (inputClose) {
       setTimeout(() => {

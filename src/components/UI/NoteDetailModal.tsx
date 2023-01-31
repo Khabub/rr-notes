@@ -1,9 +1,13 @@
-import { Button } from "@mui/material";
+import { Button, DialogTitle } from "@mui/material";
 import styled from "styled-components";
 import { addIDNote, NoteList, removeNote } from "../reducers/notesListSlice";
 import NoteModal from "./NoteModal";
 import { useAppDispatch } from "../hooks/redux";
 import { setEditNote } from "../reducers/createInputSlice";
+import { useState } from "react";
+import AlertDialog from "./AlertDialog";
+
+import { closeAlertDialog, openAlertDialog } from "../reducers/modalSlice";
 
 interface Props {
   children?: React.ReactNode;
@@ -12,9 +16,11 @@ interface Props {
 
 const NoteDetailModal = (props: Props): JSX.Element => {
   const dispatch = useAppDispatch();
+  
 
   const removeNoteHandler = () => {
-    dispatch(removeNote(props.data.id as number));
+    dispatch(openAlertDialog);
+    //dispatch(removeNote(props.data.id as number));
   };
 
   const editNoteHandler = () => {
@@ -22,8 +28,10 @@ const NoteDetailModal = (props: Props): JSX.Element => {
     dispatch(addIDNote(props.data.id as number));
   };
 
+
+
   return (
-    <NoteModal>
+    <NoteModal> 
       <Container importance={props.data.importance}>
         <div className="right-side-date">
           <span>{props.data.date}</span>
