@@ -4,9 +4,9 @@ import noteModalReducer from "../reducers/modalSlice";
 import notesListingReducer from "../reducers/notesListSlice";
 
 export const store = configureStore({
-  reducer: {    
-    createInput: createInputReducer,   
-    noteModal: noteModalReducer, 
+  reducer: {
+    createInput: createInputReducer,
+    noteModal: noteModalReducer,
     notesListing: notesListingReducer,
   },
 });

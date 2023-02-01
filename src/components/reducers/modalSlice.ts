@@ -40,6 +40,7 @@ export const {
 export const showNoteModal = (state: RootState) =>
   state.noteModal.stateNoteModal;
 
-export const showDialogValue = (state: RootState) => state.noteModal.stateAlertDialog;
+export const showDialogValue = (state: RootState) =>
+  state.noteModal.stateAlertDialog;
 
 export default noteModalSlice.reducer;

@@ -12,7 +12,7 @@ import {
 import { setAdded } from "../reducers/notesListSlice";
 import EditNote from "./EditNote";
 
-const MainWindow = (): JSX.Element => {
+const MainWindow: React.FC = () => {
   const showInput = useAppSelector(showShowInputState);
   const showEditNote = useAppSelector(showEditNoteState);
   const dispatch = useAppDispatch();
@@ -43,11 +43,13 @@ const MainWindow = (): JSX.Element => {
 
 export default MainWindow;
 
+// Styles
 const Container = styled.div<{ inputClose: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 2.5rem;
   animation: ${({ inputClose }) =>
     inputClose ? "hide 0.5s ease-out" : "none"};
 

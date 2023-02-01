@@ -18,7 +18,7 @@ import {
 import { addNote } from "../reducers/notesListSlice";
 import { useLoadNotes } from "../hooks/useLoadNotes";
 
-const InputForm = (): JSX.Element => {
+const InputForm: React.FC = () => {
   const [heading, setHeading] = useState<string>("");
   const [note, setNote] = useState<string>("");
   const [importance, setImportance] = useState<string>("green");
@@ -164,6 +164,7 @@ const InputForm = (): JSX.Element => {
 
 export default InputForm;
 
+// Styles
 const Container = styled.form`
   width: 90vw;
   max-width: 500px;
@@ -197,7 +198,7 @@ const Container = styled.form`
   .close-input-window {
     position: absolute;
     right: 0px;
-    top: 15px;
+    top: 54px;
   }
 `;
 

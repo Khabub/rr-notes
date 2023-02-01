@@ -1,18 +1,17 @@
 import ReactDOM from "react-dom";
 import styled from "styled-components";
 import { useCloseModal } from "../hooks/close-modal";
-import AlertDialog from "./AlertDialog";
 
 interface Props {
   children?: React.ReactNode;
 }
 
-const Backdrop = (): JSX.Element => {
+const Backdrop: React.FC = () => {
   const { closeHandler } = useCloseModal();
   return <ContainerBG onClick={closeHandler}></ContainerBG>;
 };
 
-const NoteModal = (props: Props): JSX.Element => {
+const NoteModal: React.FC<Props> = (props) => {
   const portal = document.getElementById("note") as HTMLElement;
 
   return (
@@ -23,8 +22,10 @@ const NoteModal = (props: Props): JSX.Element => {
   );
 };
 
+
 export default NoteModal;
 
+// Styles
 const Container = styled.div`
   position: fixed;
   top: 50%;
@@ -52,12 +53,4 @@ const ContainerBG = styled.div`
       backdrop-filter: blur(3px);
     }
   }
-`;
-
-const ContainerConfirm = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2000;
 `;

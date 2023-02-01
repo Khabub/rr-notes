@@ -59,6 +59,7 @@ export const showCancelInputState = (state: RootState) =>
   state.createInput.cancelInputState;
 export const showShowInputState = (state: RootState) =>
   state.createInput.showInputState;
-export const showEditNoteState = (state: RootState) => state.createInput.showEditNote;
+export const showEditNoteState = (state: RootState) =>
+  state.createInput.showEditNote;
 
 export default createInputSlice.reducer;

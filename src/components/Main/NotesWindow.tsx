@@ -4,12 +4,10 @@ import { useAppSelector } from "../hooks/redux";
 import { showNoteModal } from "../reducers/modalSlice";
 import CardNote from "../UI/CardNote";
 import NoteDetailModal from "../UI/NoteDetailModal";
-import { NoteList } from "../reducers/notesListSlice";
-import { notesList } from "../reducers/notesListSlice";
+import { NoteList, notesList } from "../reducers/notesListSlice";
 
-const NotesWindow = (): JSX.Element => {
+const NotesWindow: React.FC = () => {
   const [data, setData] = useState<NoteList>();
-
   const noteDetail = useAppSelector(showNoteModal);
 
   // Save the note data to "data"
@@ -47,6 +45,7 @@ const NotesWindow = (): JSX.Element => {
 
 export default NotesWindow;
 
+// Styles
 const Container = styled.div`
   display: flex;
   flex-direction: column;
