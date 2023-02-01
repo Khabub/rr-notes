@@ -8,6 +8,7 @@ import { useState } from "react";
 import AlertDialog from "./AlertDialog";
 
 import { closeAlertDialog, openAlertDialog } from "../reducers/modalSlice";
+import { useCloseModal } from "../hooks/close-modal";
 
 interface Props {
   children?: React.ReactNode;
@@ -16,16 +17,17 @@ interface Props {
 
 const NoteDetailModal = (props: Props): JSX.Element => {
   const dispatch = useAppDispatch();
-  
+  const { closeHandler } = useCloseModal();
 
   const removeNoteHandler = () => {
-    dispatch(openAlertDialog);
-    //dispatch(removeNote(props.data.id as number));
+    dispatch(openAlertDialog(true));    
+    dispatch(addIDNote(props.data.id as number));
   };
 
   const editNoteHandler = () => {
     dispatch(setEditNote(true));
     dispatch(addIDNote(props.data.id as number));
+    closeHandler();
   };
 
 

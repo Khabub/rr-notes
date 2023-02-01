@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store/redux";
 
 export interface NoteModalInterface {
@@ -21,11 +21,11 @@ const noteModalSlice = createSlice({
     openNoteModal: (state) => {
       state.stateNoteModal = true;
     },
-    openAlertDialog: (state) => {
-      state.stateAlertDialog = true;
+    openAlertDialog: (state, action: PayloadAction<boolean>) => {
+      state.stateAlertDialog = action.payload;
     },
-    closeAlertDialog: (state) => {
-      state.stateAlertDialog = false;
+    closeAlertDialog: (state, action: PayloadAction<boolean>) => {
+      state.stateAlertDialog = action.payload;
     },
   },
 });

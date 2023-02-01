@@ -8,6 +8,10 @@ export const useCloseModal = () => {
   const closeHandler = () => {
     dispatch(closeNoteModal());     
   };
+
+ 
+
+
   return {
     closeHandler,
   };
