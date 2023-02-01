@@ -17,19 +17,15 @@ import {
 } from "../reducers/createInputSlice";
 import { addNote } from "../reducers/notesListSlice";
 import { useLoadNotes } from "../hooks/useLoadNotes";
-import { TemplateInputEdit } from "./MainWindow";
 
-const InputForm = (): JSX.Element => {
+const InputForm: React.FC = () => {
   const [heading, setHeading] = useState<string>("");
   const [note, setNote] = useState<string>("");
   const [importance, setImportance] = useState<string>("green");
   const { load } = useLoadNotes();
+
   const dispatch = useAppDispatch();
   const inputClose = useAppSelector(showCancelInputState);
-
-
-
-  
 
   // Input the note
   const handleSubmit = useCallback(
@@ -37,7 +33,7 @@ const InputForm = (): JSX.Element => {
       e.preventDefault();
 
       dispatch(
-        addNote({         
+        addNote({
           heading,
           note,
           importance,
@@ -74,7 +70,7 @@ const InputForm = (): JSX.Element => {
   useEffect(() => {
     if (inputClose) {
       setTimeout(() => {
-        dispatch(setShowInput(""));
+        dispatch(setShowInput(false));
         dispatch(setCancelInput(false));
       }, 450);
     }
@@ -168,6 +164,7 @@ const InputForm = (): JSX.Element => {
 
 export default InputForm;
 
+// Styles
 const Container = styled.form`
   width: 90vw;
   max-width: 500px;
@@ -201,7 +198,7 @@ const Container = styled.form`
   .close-input-window {
     position: absolute;
     right: 0px;
-    top: 15px;
+    top: 54px;
   }
 `;
 
