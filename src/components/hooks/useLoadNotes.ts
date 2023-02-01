@@ -8,7 +8,7 @@ export const useLoadNotes = () => {
   const [load, setLoad] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
+  useEffect(() => {    
     const newList = window.localStorage.getItem("noteList") as string;
     if (newList) {
       const parsedNotes = JSON.parse(newList);

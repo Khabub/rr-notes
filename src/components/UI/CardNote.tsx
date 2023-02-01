@@ -4,10 +4,11 @@ import { openNoteModal } from "../reducers/modalSlice";
 import { NoteList } from "../reducers/notesListSlice";
 
 interface Props extends NoteList {
+  children?: React.ReactNode;
   onClickNote: () => void;
 }
 
-const CardNote: React.FC<Props> = (props) => {
+const CardNote = (props: Props): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const handleClick = () => {
@@ -30,7 +31,6 @@ const CardNote: React.FC<Props> = (props) => {
 
 export default CardNote;
 
-// Styles
 const Container = styled.div<Pick<NoteList, "importance">>`
   padding: 1rem;
   display: flex;
@@ -71,5 +71,17 @@ const Container = styled.div<Pick<NoteList, "importance">>`
     top: 2px;
   }
 
- 
+  @media (max-width: 320px) {
+    .right-side-buttons {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .note-content {
+      width: 65vw;
+      max-width: 380px;
+    }
+  }
 `;

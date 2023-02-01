@@ -5,9 +5,9 @@ import { useAppSelector } from "../hooks/redux";
 import { showCancelInputState } from "../reducers/createInputSlice";
 import { useLoadNotes } from "../hooks/useLoadNotes";
 
-const MainContainer: React.FC = () => {
+const MainContainer = (): JSX.Element => {
   const inputClose = useAppSelector(showCancelInputState);
-
+  
   // If load is true, show NotesWindow
   const { load } = useLoadNotes();
 
@@ -21,7 +21,6 @@ const MainContainer: React.FC = () => {
 
 export default MainContainer;
 
-// Styles
 const Container = styled.div<{ inputClose: boolean }>`
   display: flex;
   flex-direction: column;

@@ -5,23 +5,28 @@ import AddIcon from "@mui/icons-material/Add";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import {
   setShowInput,
-  showCancelInputState,  
+  showCancelInputState,
   showEditNoteState,
   showShowInputState,
 } from "../reducers/createInputSlice";
-import { setAdded } from "../reducers/notesListSlice";
-import EditNote from "./EditNote";
+import { getIdNote, notesList, setAdded } from "../reducers/notesListSlice";
+import { useEffect } from "react";
 
-const MainWindow: React.FC = () => {
+const MainWindow = (): JSX.Element => {
   const showInput = useAppSelector(showShowInputState);
   const showEditNote = useAppSelector(showEditNoteState);
   const dispatch = useAppDispatch();
   const inputClose = useAppSelector(showCancelInputState);
+  const getIdNoteValue = useAppSelector(getIdNote) as number;
 
   const noteHandler = () => {
-    dispatch(setShowInput(true));
+    dispatch(setShowInput("inputWindow"));
     dispatch(setAdded());
+    
   };
+
+
+
 
   return (
     <Container inputClose={inputClose}>
@@ -35,21 +40,18 @@ const MainWindow: React.FC = () => {
         <AddIcon />
       </FabSC>
 
-      {showInput && <InputForm />}
-      {showEditNote && <EditNote />}
+      
     </Container>
   );
 };
 
 export default MainWindow;
 
-// Styles
 const Container = styled.div<{ inputClose: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 2.5rem;
   animation: ${({ inputClose }) =>
     inputClose ? "hide 0.5s ease-out" : "none"};
 

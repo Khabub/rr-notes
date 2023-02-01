@@ -20,12 +20,14 @@ import { editNote, getIdNote, notesList } from "../reducers/notesListSlice";
 import { useLoadNotes } from "../hooks/useLoadNotes";
 
 // Edit the note
-const EditNote: React.FC = () => {
+const EditNote = (): JSX.Element => {
   const { load } = useLoadNotes();
+
   const dispatch = useAppDispatch();
   const inputClose = useAppSelector(showCancelInputState);
-  const getIdNoteValue = useAppSelector(getIdNote) as number;
 
+
+  const getIdNoteValue = useAppSelector(getIdNote) as number;
   const [heading, setHeading] = useState<string>(
     notesList[getIdNoteValue].heading
   );
@@ -170,7 +172,6 @@ const EditNote: React.FC = () => {
 
 export default EditNote;
 
-// Styles
 const Container = styled.form`
   width: 90vw;
   max-width: 500px;
@@ -204,7 +205,7 @@ const Container = styled.form`
   .close-input-window {
     position: absolute;
     right: 0px;
-    top: 54px;
+    top: 15px;
   }
 `;
 
