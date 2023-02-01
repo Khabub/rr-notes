@@ -7,7 +7,7 @@ import NoteDetailModal from "../UI/NoteDetailModal";
 import { NoteList } from "../reducers/notesListSlice";
 import { notesList } from "../reducers/notesListSlice";
 
-const NotesWindow = (): JSX.Element => {
+const NotesWindow: React.FC = () => {
   const [data, setData] = useState<NoteList>();
 
   const noteDetail = useAppSelector(showNoteModal);

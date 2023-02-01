@@ -3,10 +3,6 @@ import { Snackbar } from "@mui/material";
 import { useSnackbar } from "../hooks/useSnackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
-interface Props {
-  children?: React.ReactNode;
-}
-
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
   ref
@@ -14,7 +10,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const SnackbarWindow = (props: Props): JSX.Element => {
+const SnackbarWindow: React.FC = () => {
   const { snackProps, handleClose } = useSnackbar();
   return (
     <Snackbar

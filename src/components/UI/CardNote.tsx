@@ -3,12 +3,11 @@ import { useAppDispatch } from "../hooks/redux";
 import { openNoteModal } from "../reducers/modalSlice";
 import { NoteList } from "../reducers/notesListSlice";
 
-interface Props extends NoteList {
-  children?: React.ReactNode;
+interface Props extends NoteList { 
   onClickNote: () => void;
 }
 
-const CardNote = (props: Props): JSX.Element => {
+const CardNote: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
 
   const handleClick = () => {
