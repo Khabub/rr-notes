@@ -5,7 +5,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import {
   setShowInput,
-  showCancelInputState,  
+  showCancelInputState,
   showEditNoteState,
   showShowInputState,
 } from "../reducers/createInputSlice";
@@ -21,6 +21,7 @@ const MainWindow: React.FC = () => {
   const noteHandler = () => {
     dispatch(setShowInput(true));
     dispatch(setAdded());
+    window.scrollTo({ top: 0 });
   };
 
   return (
@@ -28,6 +29,7 @@ const MainWindow: React.FC = () => {
       {/* Dial button */}
       <FabSC
         noteiconshow={showInput.toString()}
+        noteiconshowedit={showEditNote.toString()}
         onClick={noteHandler}
         color="primary"
         aria-label="add"
@@ -63,13 +65,15 @@ const Container = styled.div<{ inputClose: boolean }>`
   }
 `;
 
-const FabSC = styled(Fab)<{ noteiconshow: string }>`
+const FabSC = styled(Fab)<{ noteiconshow: string; noteiconshowedit: string }>`
   && {
     position: fixed;
     bottom: 32px;
     right: 32px;
 
-    display: ${({ noteiconshow }) =>
-      noteiconshow === "true" ? "none" : "inherit"};
+    display: ${({ noteiconshow, noteiconshowedit }) =>
+      noteiconshow === "true" || noteiconshowedit === "true"
+        ? "none"
+        : "inherit"};
   }
 `;

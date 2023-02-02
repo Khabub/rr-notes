@@ -29,7 +29,7 @@ const Container = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1600;
+  z-index: 1100;
 `;
 
 const ContainerBG = styled.div`
@@ -40,7 +40,7 @@ const ContainerBG = styled.div`
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(3px);
-  z-index: 1500;
+  z-index: 1000;
   animation: modalShow 0.3s ease-in;
 
   @keyframes modalShow {

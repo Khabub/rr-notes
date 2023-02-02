@@ -1,18 +1,32 @@
 import styled from "styled-components";
-import { useAppDispatch } from "../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import {
+  setCancelInput,
+  showEditNoteState,
+  showShowInputState,
+} from "../reducers/createInputSlice";
 import { openNoteModal } from "../reducers/modalSlice";
 import { NoteList } from "../reducers/notesListSlice";
 
-interface Props extends NoteList { 
+interface Props extends NoteList {
   onClickNote: () => void;
 }
 
 const CardNote: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
 
+  const inputShow = useAppSelector(showShowInputState);
+  const editShow = useAppSelector(showEditNoteState);
+
   const handleClick = () => {
+    if (inputShow || editShow) {
+      dispatch(setCancelInput(true));
+    }
+
     props.onClickNote();
     dispatch(openNoteModal());
+
+    window.scrollTo({ top: 0 });
   };
 
   return (
