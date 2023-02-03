@@ -1,16 +1,57 @@
 import styled from "styled-components";
 import MenuIcon from "@mui/icons-material/Menu";
-import { SwipeableDrawer, Switch } from "@mui/material";
-import { useState } from "react";
+import {
+  FormControlLabel,
+  FormGroup,
+  SwipeableDrawer,
+  Switch,
+} from "@mui/material";
+import { useEffect, useState } from "react";
 import Divider from "@mui/material/Divider";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+//import { setSwitchText, switchTextValue } from "../reducers/notesListSlice";
+import { useLoadNotes } from "../hooks/useLoadNotes";
+
+interface Props {
+  isOpen: boolean;
+  onClick: () => void;
+}
+
+const MenuIconWrapper = ({ isOpen, onClick }: Props): JSX.Element => (
+  <div style={{ marginRight: "1rem" }} onClick={onClick}>
+    {isOpen ? <MenuOpenIcon /> : <MenuIcon />}
+  </div>
+);
 
 const NavMobile: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
+  const [switchT, setSwitchT] = useState<boolean>(true);
+  
+  const dispatch = useAppDispatch();
+  //const switchShow = useAppSelector(switchTextValue) as boolean;
+
+ 
+
+
+
+/*   useEffect(() => {
+    const storedValue = localStorage.getItem('switchValue');
+    if (storedValue !== null) {
+      dispatch(setSwitchText(storedValue === 'true'));
+    }
+  }, [dispatch]); */
+
+  const switchHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.checked;
+    //window.localStorage.setItem('switchValue', newValue.toString());
+    setSwitchT(newValue);
+  };
 
   return (
     <Container>
       <p className="logo">rr-notes</p>
-      <MenuIcon onClick={() => setOpen(true)} sx={{ marginRight: "1rem" }} />
+      <MenuIconWrapper isOpen={open} onClick={() => setOpen(true)} />
       <SwipeableDrawerSC
         anchor="left"
         open={open}
@@ -30,13 +71,16 @@ const NavMobile: React.FC = () => {
         <Divider
           sx={{ width: "100%", marginBottom: "1rem", borderBottomWidth: 5 }}
         />
-        <p className="textHelper">on/off text above notes</p>
-        <div>
-          <span>off</span>
-          <Switch defaultChecked />
-          <span>on</span>
-        </div>
-        <p className="created">Created by Robert Rozehnal</p>
+        <FormGroup>
+          <div className="text-above-notes">
+            <FormControlLabel
+              control={<Switch checked={switchT} onChange={switchHandler} />}
+              label="Text above notes?"
+              labelPlacement="top"
+            />
+          </div>
+        </FormGroup>
+        <p className="created">Created by Robert Rozehnal, 2023</p>
       </SwipeableDrawerSC>
     </Container>
   );
@@ -52,7 +96,7 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 40px;
-  z-index: 1200;
+  z-index: 900;
 
   .logo {
     padding-left: 1rem;
@@ -72,6 +116,12 @@ const SwipeableDrawerSC = styled(SwipeableDrawer)`
       font-size: 0.7rem;
       position: absolute;
       bottom: 0;
+    }
+    .text-above-notes {
+      border: 1px solid grey;
+      border-radius: 10px;
+      margin: 0.5rem 0;
+      padding: 0.5rem 0;
     }
   }
 `;

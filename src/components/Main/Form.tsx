@@ -17,6 +17,7 @@ interface Props {
   valueImportance: (e: React.SyntheticEvent<Element, Event>) => void;
   valueInputs: string[];
   valueText: string[];
+ 
 }
 
 const Form: React.FC<Props> = ({
@@ -27,6 +28,7 @@ const Form: React.FC<Props> = ({
   valueImportance,
   valueInputs: [heading, note, importance],
   valueText,
+ 
 }) => {
   return (
     <Container onSubmit={valueSubmit}>

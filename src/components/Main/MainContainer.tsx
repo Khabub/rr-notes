@@ -4,6 +4,7 @@ import MainWindow from "../Main/MainWindow";
 import { useAppSelector } from "../hooks/redux";
 import { showCancelInputState } from "../reducers/createInputSlice";
 import { useLoadNotes } from "../hooks/useLoadNotes";
+import AlertDialog from "../UI/AlertDialog";
 
 const MainContainer: React.FC = () => {
   const inputClose = useAppSelector(showCancelInputState);
@@ -12,7 +13,7 @@ const MainContainer: React.FC = () => {
   const { load } = useLoadNotes();
 
   return (
-    <Container inputClose={inputClose}>
+    <Container inputClose={inputClose}>      
       <MainWindow />
       {load && <NotesWindow />}
     </Container>

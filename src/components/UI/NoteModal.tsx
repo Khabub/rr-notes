@@ -12,12 +12,16 @@ const Backdrop: React.FC = () => {
 };
 
 const NoteModal = (props: Props): JSX.Element => {
+  const { closeHandler } = useCloseModal();
   const portal = document.getElementById("note") as HTMLElement;
 
   return (
     <>
       {ReactDOM.createPortal(<Backdrop />, portal)}
-      {ReactDOM.createPortal(<Container>{props.children}</Container>, portal)}
+      {ReactDOM.createPortal(
+        <Container onClick={closeHandler}>{props.children}</Container>,
+        portal
+      )}
     </>
   );
 };

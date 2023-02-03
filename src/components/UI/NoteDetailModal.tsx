@@ -4,7 +4,7 @@ import { addIDNote, NoteList } from "../reducers/notesListSlice";
 import NoteModal from "./NoteModal";
 import { useAppDispatch } from "../hooks/redux";
 import { setEditNote } from "../reducers/createInputSlice";
-import { openAlertDialog } from "../reducers/modalSlice";
+import { setAlertDialog } from "../reducers/modalSlice";
 import { useCloseModal } from "../hooks/close-modal";
 
 interface Props {
@@ -16,7 +16,7 @@ const NoteDetailModal: React.FC<Props> = (props) => {
   const { closeHandler } = useCloseModal();
 
   const removeNoteHandler = () => {
-    dispatch(openAlertDialog(true));
+    dispatch(setAlertDialog(true));
     dispatch(addIDNote(props.data.id as number));
   };
 
@@ -27,7 +27,7 @@ const NoteDetailModal: React.FC<Props> = (props) => {
   };
 
   return (
-    <NoteModal>
+    <NoteModal>      
       <Container importance={props.data.importance}>
         <div className="right-side-date">
           <span>{props.data.date}</span>

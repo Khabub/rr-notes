@@ -5,7 +5,7 @@ import {
   showEditNoteState,
   showShowInputState,
 } from "../reducers/createInputSlice";
-import { openNoteModal } from "../reducers/modalSlice";
+import { setNoteModal } from "../reducers/modalSlice";
 import { NoteList } from "../reducers/notesListSlice";
 
 interface Props extends NoteList {
@@ -24,7 +24,7 @@ const CardNote: React.FC<Props> = (props) => {
     }
 
     props.onClickNote();
-    dispatch(openNoteModal());
+    dispatch(setNoteModal(true));
 
     window.scrollTo({ top: 0 });
   };

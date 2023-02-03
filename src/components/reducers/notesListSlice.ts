@@ -12,6 +12,7 @@ export interface NoteList {
   edited?: boolean;
   deletedNote?: boolean;
   idNote?: number;
+  
 }
 
 const notesListInitial: NoteList = {
@@ -19,7 +20,7 @@ const notesListInitial: NoteList = {
   heading: "",
   note: "",
   importance: "",
-  date: new Date().toLocaleString(),
+  date: new Date().toLocaleString(),  
 };
 
 // Main list of notes
@@ -104,11 +105,20 @@ const notesListSlice = createSlice({
     addIDNote: (state, action: PayloadAction<number>) => {
       state.idNote = action.payload;
     },
+    /* setSwitchText: (state, action: PayloadAction<boolean>) => {
+      state.switchText = action.payload;
+    }, */
   },
 });
 
-export const { addNote, removeNote, loadNotes, setAdded, addIDNote, editNote } =
-  notesListSlice.actions;
+export const {
+  addNote,
+  removeNote,
+  loadNotes,
+  setAdded,
+  addIDNote,
+  editNote,  
+} = notesListSlice.actions;
 
 export const isNoteProps = (state: RootState): NoteProps => ({
   added: state.notesListing.added as boolean,
@@ -117,5 +127,8 @@ export const isNoteProps = (state: RootState): NoteProps => ({
 });
 
 export const getIdNote = (state: RootState) => state.notesListing.idNote;
+
+/* export const switchTextValue = (state: RootState) =>
+  state.notesListing.switchText; */
 
 export default notesListSlice.reducer;

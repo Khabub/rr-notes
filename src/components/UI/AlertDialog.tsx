@@ -6,7 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { closeAlertDialog, showDialogValue } from "../reducers/modalSlice";
+import { setAlertDialog, showDialogValue } from "../reducers/modalSlice";
 import { getIdNote, removeNote } from "../reducers/notesListSlice";
 import { useCloseModal } from "../hooks/close-modal";
 
@@ -18,11 +18,11 @@ const AlertDialog: React.FC = () => {
   const idNote = useAppSelector(getIdNote);
 
   const handleCloseDialogCancel = () => {
-    dispatch(closeAlertDialog(false));
+    dispatch(setAlertDialog(false));
   };
 
   const handleCloseDialog = () => {
-    dispatch(closeAlertDialog(false));
+    dispatch(setAlertDialog(false));
     dispatch(removeNote(idNote as number));
     closeHandler();
   };
@@ -33,7 +33,7 @@ const AlertDialog: React.FC = () => {
         open={showAlert}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        sx={{ zIndex: 2000, textAlign: "center", height: "97%" }}
+        sx={{ textAlign: "center", height: "97%" }}
       >
         <DialogTitle id="alert-dialog-title">Deleting the note</DialogTitle>
         <DialogContent>

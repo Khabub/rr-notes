@@ -13,7 +13,7 @@ const App = (): JSX.Element => {
       <NavMobile />
       <MainContainer />
       <SnackbarWindow />
-      <AlertDialog />      
+      <AlertDialog />  
     </>
   );
 };

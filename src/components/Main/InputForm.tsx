@@ -45,7 +45,7 @@ const InputForm: React.FC = () => {
   return (
     <>
       <Form
-        valueCancel={cancelHandle}
+        valueCancel={cancelHandle}        
         valueImportance={importanceHandler}
         valueHeading={headingHandler}
         valueNote={noteHandler}

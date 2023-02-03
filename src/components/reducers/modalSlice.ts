@@ -15,26 +15,18 @@ const noteModalSlice = createSlice({
   name: "noteModal",
   initialState: noteModalInterface,
   reducers: {
-    closeNoteModal: (state) => {
-      state.stateNoteModal = false;
-    },
-    openNoteModal: (state) => {
-      state.stateNoteModal = true;
-    },
-    openAlertDialog: (state, action: PayloadAction<boolean>) => {
+    setNoteModal: (state, action: PayloadAction<boolean>) => {
+      state.stateNoteModal = action.payload;
+    },    
+    setAlertDialog: (state, action: PayloadAction<boolean>) => {
       state.stateAlertDialog = action.payload;
-    },
-    closeAlertDialog: (state, action: PayloadAction<boolean>) => {
-      state.stateAlertDialog = action.payload;
-    },
+    },    
   },
 });
 
 export const {
-  closeNoteModal,
-  openNoteModal,
-  openAlertDialog,
-  closeAlertDialog,
+  setNoteModal,  
+  setAlertDialog,  
 } = noteModalSlice.actions;
 
 export const showNoteModal = (state: RootState) =>
