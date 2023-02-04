@@ -1,17 +1,11 @@
 import styled from "styled-components";
 import MenuIcon from "@mui/icons-material/Menu";
-import {
-  FormControlLabel,  
-  SwipeableDrawer,
-  Switch,
-} from "@mui/material";
+import { FormControlLabel, SwipeableDrawer, Switch } from "@mui/material";
 import { useState } from "react";
 import Divider from "@mui/material/Divider";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
-//import { setSwitchText, switchTextValue } from "../reducers/notesListSlice";
-import {setTextHeadingValue, showTextHeadingValue} from "../reducers/modalSlice";
-
+import { useAppDispatch } from "../hooks/redux";
+import { setTextHeadingValue } from "../reducers/modalSlice";
 
 interface Props {
   isOpen: boolean;
@@ -25,23 +19,19 @@ const MenuIconWrapper = ({ isOpen, onClick }: Props): JSX.Element => (
 );
 
 const NavMobile: React.FC = () => {
-  const getTextHeadingValue = useAppSelector(showTextHeadingValue);
+  const switchValue = window.localStorage.getItem("switchValue") as string;
   const [open, setOpen] = useState<boolean>(false);
-  const [switchT, setSwitchT] = useState<boolean>(getTextHeadingValue);
-  
-  
-  const dispatch = useAppDispatch();
-  
+  const [switchT, setSwitchT] = useState<boolean>(JSON.parse(switchValue));
 
+  const dispatch = useAppDispatch();
 
   const switchHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.checked;    
+    const newValue = event.target.checked;
     setSwitchT(newValue);
     dispatch(setTextHeadingValue(newValue));
     window.localStorage.setItem("switchValue", JSON.stringify(newValue));
   };
-
-
+  
   return (
     <Container>
       <p className="logo">rr-notes</p>
@@ -65,15 +55,15 @@ const NavMobile: React.FC = () => {
         <Divider
           sx={{ width: "100%", marginBottom: "1rem", borderBottomWidth: 5 }}
         />
-       
-          <div className="text-above-notes">
-            <FormControlLabel
-              control={<Switch checked={switchT} onChange={switchHandler} />}
-              label="Text above notes?"
-              labelPlacement="top"
-            />
-          </div>
-        
+
+        <div className="text-above-notes">
+          <FormControlLabel
+            control={<Switch checked={switchT} onChange={switchHandler} />}
+            label="Text above notes?"
+            labelPlacement="top"
+          />
+        </div>
+
         <p className="created">Created by Robert Rozehnal, 2023</p>
       </SwipeableDrawerSC>
     </Container>
@@ -119,7 +109,3 @@ const SwipeableDrawerSC = styled(SwipeableDrawer)`
     }
   }
 `;
-function setTextHeading(arg0: boolean): any {
-  throw new Error("Function not implemented.");
-}
-
