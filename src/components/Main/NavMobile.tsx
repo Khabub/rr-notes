@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
+  Button,
   FormControl,
   FormControlLabel,
   Radio,
@@ -8,7 +9,7 @@ import {
   SwipeableDrawer,
   Switch,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Divider from "@mui/material/Divider";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
@@ -69,7 +70,7 @@ const NavMobile: React.FC = () => {
             alignItems: "center",
             padding: "0 0.5rem",
             backgroundColor: "#b3b3da",
-            width: "60vw",
+            width: "180px",
           },
         }}
       >
@@ -87,24 +88,59 @@ const NavMobile: React.FC = () => {
                 : "Text nad poznámkami"
             }
             labelPlacement="top"
-            sx={{ textAlign: "center" }}
+            sx={{
+              display: "flex",
+              flexDirection: "colum",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+            }}
           />
         </div>
 
         <div className="language-set">
-          <FormControl>
+          <FormControl
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             {languageValue === "ENG" ? "Set language" : "Nastav jazyk"}
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="controlled-radio-buttons-group"
               value={valueLang}
               onChange={handleChange}
-              sx={{ translate: "10px", marginTop: "0.5rem" }}
+              sx={{
+                marginTop: "0.5rem",
+              }}
             >
-              <FormControlLabel value="CZE" control={<Radio />} label="CZE" />
-              <FormControlLabel value="ENG" control={<Radio />} label="ENG" />
+              <FormControlLabel
+                sx={{ margin: 0 }}
+                value="CZE"
+                control={<Radio />}
+                label="CZE"
+              />
+              <FormControlLabel
+                sx={{ margin: 0 }}
+                value="ENG"
+                control={<Radio />}
+                label="ENG"
+              />
             </RadioGroup>
           </FormControl>
+        </div>
+        <div className="save-to-file">
+          <p>
+            {languageValue === "ENG"
+              ? "Save notes to a file"
+              : "Uložit poznámky do souboru"}
+          </p>
+          <Button variant="contained" size="small">
+            {languageValue === "ENG" ? "Save" : "Uložit"}
+          </Button>
         </div>
 
         <p className="created">
@@ -145,20 +181,27 @@ const SwipeableDrawerSC = styled(SwipeableDrawer)`
     }
     .created {
       font-size: 0.7rem;
-      position: absolute;
-      bottom: 0;
+
+      margin-top: auto;
     }
-    .text-above-notes {
+    .text-above-notes,
+    .language-set,
+    .save-to-file {
+      width: 170px;
       border: 1px solid grey;
       border-radius: 10px;
       margin: 0.5rem 0;
       padding: 0.5rem 0;
     }
-    .language-set {
-      border: 1px solid grey;
-      border-radius: 10px;
-      margin: 0.5rem 0;
-      padding: 0.5rem 2rem;
+
+    .save-to-file {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-top: 0;
+      padding-bottom: 1rem;
+      text-align: center;
     }
   }
 `;
