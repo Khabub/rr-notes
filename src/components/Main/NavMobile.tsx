@@ -1,11 +1,22 @@
 import styled from "styled-components";
 import MenuIcon from "@mui/icons-material/Menu";
-import { FormControlLabel, SwipeableDrawer, Switch } from "@mui/material";
-import { useState } from "react";
+import {
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  SwipeableDrawer,
+  Switch,
+} from "@mui/material";
+import { useEffect, useState } from "react";
 import Divider from "@mui/material/Divider";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
-import { useAppDispatch } from "../hooks/redux";
-import { setTextHeadingValue } from "../reducers/modalSlice";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import {
+  setLanguageSet,
+  setTextHeadingValue,
+  showLanguageValue,
+} from "../reducers/modalSlice";
 
 interface Props {
   isOpen: boolean;
@@ -20,10 +31,21 @@ const MenuIconWrapper = ({ isOpen, onClick }: Props): JSX.Element => (
 
 const NavMobile: React.FC = () => {
   const switchValue = window.localStorage.getItem("switchValue") as string;
+  const languageLoad =
+    (window.localStorage.getItem("rr-notes-language") as string) || "CZE";
   const [open, setOpen] = useState<boolean>(false);
   const [switchT, setSwitchT] = useState<boolean>(JSON.parse(switchValue));
+  const languageValue = useAppSelector(showLanguageValue);
+  const [valueLang, setValueLang] = useState<string>(languageLoad);
 
   const dispatch = useAppDispatch();
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const temp = event.target.value;
+    setValueLang(temp);
+    dispatch(setLanguageSet(temp));
+    window.localStorage.setItem("rr-notes-language", temp);
+  };
 
   const switchHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.checked;
@@ -31,7 +53,7 @@ const NavMobile: React.FC = () => {
     dispatch(setTextHeadingValue(newValue));
     window.localStorage.setItem("switchValue", JSON.stringify(newValue));
   };
-  
+
   return (
     <Container>
       <p className="logo">rr-notes</p>
@@ -59,12 +81,37 @@ const NavMobile: React.FC = () => {
         <div className="text-above-notes">
           <FormControlLabel
             control={<Switch checked={switchT} onChange={switchHandler} />}
-            label="Text above notes?"
+            label={
+              languageValue === "ENG"
+                ? "Text above notes"
+                : "Text nad poznámkami"
+            }
             labelPlacement="top"
+            sx={{ textAlign: "center" }}
           />
         </div>
 
-        <p className="created">Created by Robert Rozehnal, 2023</p>
+        <div className="language-set">
+          <FormControl>
+            {languageValue === "ENG" ? "Set language" : "Nastav jazyk"}
+            <RadioGroup
+              aria-labelledby="demo-controlled-radio-buttons-group"
+              name="controlled-radio-buttons-group"
+              value={valueLang}
+              onChange={handleChange}
+              sx={{ translate: "10px", marginTop: "0.5rem" }}
+            >
+              <FormControlLabel value="CZE" control={<Radio />} label="CZE" />
+              <FormControlLabel value="ENG" control={<Radio />} label="ENG" />
+            </RadioGroup>
+          </FormControl>
+        </div>
+
+        <p className="created">
+          {languageValue === "ENG"
+            ? "Created by Robert Rozehnal, 2023"
+            : "Vytvořil Robert Rozehnal, 2023"}
+        </p>
       </SwipeableDrawerSC>
     </Container>
   );
@@ -106,6 +153,12 @@ const SwipeableDrawerSC = styled(SwipeableDrawer)`
       border-radius: 10px;
       margin: 0.5rem 0;
       padding: 0.5rem 0;
+    }
+    .language-set {
+      border: 1px solid grey;
+      border-radius: 10px;
+      margin: 0.5rem 0;
+      padding: 0.5rem 2rem;
     }
   }
 `;

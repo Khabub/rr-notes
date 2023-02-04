@@ -8,6 +8,8 @@ import {
   TextField,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { showLanguageValue } from "../reducers/modalSlice";
+import { useAppSelector } from "../hooks/redux";
 
 interface Props {
   valueCancel: () => void;
@@ -17,7 +19,6 @@ interface Props {
   valueImportance: (e: React.SyntheticEvent<Element, Event>) => void;
   valueInputs: string[];
   valueText: string[];
- 
 }
 
 const Form: React.FC<Props> = ({
@@ -28,8 +29,26 @@ const Form: React.FC<Props> = ({
   valueImportance,
   valueInputs: [heading, note, importance],
   valueText,
- 
 }) => {
+  const languageValue = useAppSelector(showLanguageValue);
+
+  const formTexts =
+    languageValue === "ENG"
+      ? {
+          placeholder: "Heading (max 20 characters)",
+          placeholderNote: "Note...",
+          labelHigh: "Very important",
+          labelMiddle: "Important",
+          labelLow: "Not so important"
+        }
+      : {
+          placeholder: "Nadpis (maximálně 20 písmen)",
+          placeholderNote: "Poznámka...",
+          labelHigh: "Hodně důležitá",
+          labelMiddle: "Důležitá",
+          labelLow: "Ne moc důležitá"
+      };
+
   return (
     <Container onSubmit={valueSubmit}>
       <h1 className="input-heading-h1">{valueText[0]}</h1>
@@ -43,7 +62,7 @@ const Form: React.FC<Props> = ({
         <TextField
           inputProps={{ maxLength: 20 }}
           type="text"
-          placeholder="Heading (max 20 characters)"
+          placeholder={formTexts.placeholder}
           value={heading}
           onChange={valueHeading}
         />
@@ -52,7 +71,7 @@ const Form: React.FC<Props> = ({
           multiline
           rows={3}
           type="text"
-          placeholder="Note..."
+          placeholder={formTexts.placeholderNote}
           value={note}
           onChange={valueNote}
         />
@@ -70,7 +89,7 @@ const Form: React.FC<Props> = ({
               }}
             />
           }
-          label="Very important"
+          label={formTexts.labelHigh}
           labelPlacement="end"
           value="red"
         />
@@ -85,7 +104,7 @@ const Form: React.FC<Props> = ({
               }}
             />
           }
-          label="Important"
+          label={formTexts.labelMiddle}
           labelPlacement="end"
           value="orange"
         />
@@ -100,7 +119,7 @@ const Form: React.FC<Props> = ({
               }}
             />
           }
-          label="Not so important"
+          label={formTexts.labelLow}
           labelPlacement="end"
           value="green"
         />

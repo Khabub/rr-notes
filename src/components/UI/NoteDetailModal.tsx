@@ -2,9 +2,9 @@ import { Button } from "@mui/material";
 import styled from "styled-components";
 import { addIDNote, NoteList } from "../reducers/notesListSlice";
 import NoteModal from "./NoteModal";
-import { useAppDispatch } from "../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { setEditNote } from "../reducers/createInputSlice";
-import { setAlertDialog } from "../reducers/modalSlice";
+import { setAlertDialog, showLanguageValue } from "../reducers/modalSlice";
 import { useCloseModal } from "../hooks/close-modal";
 
 interface Props {
@@ -14,6 +14,7 @@ interface Props {
 const NoteDetailModal: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
   const { closeHandler } = useCloseModal();
+  const languageValue = useAppSelector(showLanguageValue);
 
   const removeNoteHandler = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -45,7 +46,7 @@ const NoteDetailModal: React.FC<Props> = (props) => {
             color="warning"
             variant="outlined"
           >
-            Edit
+            {languageValue === "ENG" ? "Edit" : "Změnit"}
           </Button>
           <Button
             onClick={removeNoteHandler}
@@ -56,7 +57,7 @@ const NoteDetailModal: React.FC<Props> = (props) => {
             color="error"
             variant="contained"
           >
-            Delete
+            {languageValue === "ENG" ? "Delete" : "Smazat"}
           </Button>
         </div>
         <div>

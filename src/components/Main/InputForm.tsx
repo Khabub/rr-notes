@@ -1,14 +1,17 @@
 import React, { useCallback } from "react";
-import { useAppDispatch } from "../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { setCancelInput } from "../reducers/createInputSlice";
 import { addNote } from "../reducers/notesListSlice";
 import { useLoadNotes } from "../hooks/useLoadNotes";
 import { useInputEdit } from "../hooks/useInputEdit";
 import Form from "./Form";
+import { showLanguageValue } from "../reducers/modalSlice";
 
 const InputForm: React.FC = () => {
   // Load hooks
   const { load } = useLoadNotes();
+  const languageValue = useAppSelector(showLanguageValue);
+  
   const {
     heading,
     note,
@@ -42,6 +45,11 @@ const InputForm: React.FC = () => {
     [dispatch, heading, importance, note, load]
   );
 
+  const valueTextLanguage =
+    languageValue === "ENG"
+      ? ["Enter a note", "Enter note"]
+      : ["Napiš poznámku", "Vložit"];
+
   return (
     <>
       <Form
@@ -51,7 +59,7 @@ const InputForm: React.FC = () => {
         valueNote={noteHandler}
         valueSubmit={handleSubmit}
         valueInputs={[heading, note, importance]}
-        valueText={["Enter a note", "Enter note"]}
+        valueText={valueTextLanguage}
       />
     </>
   );

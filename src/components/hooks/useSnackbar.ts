@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { showLanguageValue } from "../reducers/modalSlice";
 import { setAdded, isNoteProps, NoteProps } from "../reducers/notesListSlice";
 import { useAppDispatch, useAppSelector } from "./redux";
 
@@ -20,17 +21,31 @@ const snackInit: SnackInterface = {
 export const useSnackbar = () => {
   const showSnack = useAppSelector<NoteProps>(isNoteProps);
   const [snackProps, setSnackProps] = useState<SnackInterface>(snackInit);
+  const languageValue = useAppSelector(showLanguageValue);
   const dispatch = useAppDispatch();
+
+  const snackNote =
+    languageValue === "ENG"
+      ? {
+          created: "Note created!",
+          edited: "Note edited!",
+          deleted: "Note deleted!",
+        }
+      : {
+          created: "Poznámka vytvořena!",
+          edited: "Poznámka změněna!",
+          deleted: "Poznámka smazána!",
+        };
 
   useEffect(() => {
     if (showSnack.added) {
-      setSnackProps({ open: true, color: "success", text: "Note created!" });
+      setSnackProps({ open: true, color: "success", text: snackNote.created });
     } else if (showSnack.edited) {
-      setSnackProps({ open: true, color: "warning", text: "Note edited!" });
+      setSnackProps({ open: true, color: "warning", text: snackNote.edited });
     } else if (showSnack.deleted) {
-      setSnackProps({ open: true, color: "error", text: "Note deleted!" });
+      setSnackProps({ open: true, color: "error", text: snackNote.deleted });
     }
-  }, [showSnack]);
+  }, [showSnack, snackNote.created, snackNote.edited, snackNote.deleted]);
 
   const handleClose = (
     event: React.SyntheticEvent | Event,

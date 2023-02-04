@@ -6,16 +6,20 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { setAlertDialog, showDialogValue } from "../reducers/modalSlice";
+import {
+  setAlertDialog,
+  showDialogValue,
+  showLanguageValue,
+} from "../reducers/modalSlice";
 import { getIdNote, removeNote } from "../reducers/notesListSlice";
 import { useCloseModal } from "../hooks/close-modal";
-
 
 const AlertDialog: React.FC = () => {
   const { closeHandler } = useCloseModal();
   const dispatch = useAppDispatch();
   const showAlert = useAppSelector(showDialogValue);
   const idNote = useAppSelector(getIdNote);
+  const languageValue = useAppSelector(showLanguageValue);
 
   const handleCloseDialogCancel = () => {
     dispatch(setAlertDialog(false));
@@ -27,6 +31,21 @@ const AlertDialog: React.FC = () => {
     closeHandler();
   };
 
+  const dialogLanguage =
+    languageValue === "ENG"
+      ? {
+          title: "Deleting the note",
+          info: "Confirm deleting the note",
+          cancel: "Cancel",
+          Confirm: "Confirm",
+        }
+      : {
+          title: "Smazání poznámky",
+          info: "Potvrď smazání poznámky",
+          cancel: "Zrušit",
+          Confirm: "Potvrdit",
+        };
+
   return (
     <>
       <Dialog
@@ -35,21 +54,25 @@ const AlertDialog: React.FC = () => {
         aria-describedby="alert-dialog-description"
         sx={{ textAlign: "center", height: "97%" }}
       >
-        <DialogTitle id="alert-dialog-title">Deleting the note</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          {dialogLanguage.title}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Confirm deleting the note
+            {dialogLanguage.info}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialogCancel}>Cancel</Button>
-          <Button onClick={handleCloseDialog} autoFocus sx={{color: "red"}}>
-            Confirm
+          <Button onClick={handleCloseDialogCancel}>
+            {dialogLanguage.cancel}
+          </Button>
+          <Button onClick={handleCloseDialog} autoFocus sx={{ color: "red" }}>
+            {dialogLanguage.Confirm}
           </Button>
         </DialogActions>
       </Dialog>
     </>
   );
-}
+};
 
 export default AlertDialog;

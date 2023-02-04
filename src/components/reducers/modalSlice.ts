@@ -6,12 +6,14 @@ export interface NoteModalInterface {
   stateNoteModal: boolean;
   stateAlertDialog: boolean;
   textHeadingState: boolean;
+  languageSet: string;
 }
 
 const noteModalInterface: NoteModalInterface = {
   stateNoteModal: false,
   stateAlertDialog: false,
   textHeadingState: true,
+  languageSet: "CZE",
 };
 
 const noteModalSlice = createSlice({
@@ -27,10 +29,13 @@ const noteModalSlice = createSlice({
     setTextHeadingValue: (state, action: PayloadAction<boolean>) => {
       state.textHeadingState = action.payload;
     },
+    setLanguageSet: (state, action: PayloadAction<string>) => {
+      state.languageSet = action.payload;
+    }
   },
 });
 
-export const { setNoteModal, setAlertDialog, setTextHeadingValue } =
+export const { setNoteModal, setAlertDialog, setTextHeadingValue, setLanguageSet } =
   noteModalSlice.actions;
 
 export const showNoteModal = (state: RootState) =>
@@ -40,5 +45,6 @@ export const showDialogValue = (state: RootState) =>
   state.noteModal.stateAlertDialog;
 export const showTextHeadingValue = (state: RootState) =>
   state.noteModal.textHeadingState;
+export const showLanguageValue = (state: RootState) => state.noteModal.languageSet;
 
 export default noteModalSlice.reducer;

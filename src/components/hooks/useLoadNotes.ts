@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { setTextHeadingValue } from "../reducers/modalSlice";
+import { setLanguageSet, setTextHeadingValue } from "../reducers/modalSlice";
 import { loadNotes } from "../reducers/notesListSlice";
 import { notesList } from "../reducers/notesListSlice";
 import { useAppDispatch } from "./redux";
@@ -26,6 +26,15 @@ export const useLoadNotes = () => {
     } else {
       window.localStorage.setItem("switchValue", JSON.stringify(true));
     }
+
+    // set language state
+    const languageSet = window.localStorage.getItem("rr-notes-language") as string;
+    if (languageSet) {      
+      dispatch(setLanguageSet(languageSet));
+    } else {
+      window.localStorage.setItem("rr-notes-language", "CZE");
+    }
+    
   }, [dispatch]);
 
   return { load };

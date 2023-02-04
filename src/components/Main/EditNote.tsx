@@ -5,11 +5,13 @@ import { editNote, getIdNote, notesList } from "../reducers/notesListSlice";
 import { useLoadNotes } from "../hooks/useLoadNotes";
 import { useInputEdit } from "../hooks/useInputEdit";
 import Form from "./Form";
+import { showLanguageValue } from "../reducers/modalSlice";
 
 // Edit the note
 const EditNote: React.FC = () => {
   const { load } = useLoadNotes();
   const dispatch = useAppDispatch();
+  const languageValue = useAppSelector(showLanguageValue);
 
   const getIdNoteValue = useAppSelector(getIdNote) as number;
   const headingEdit = notesList[getIdNoteValue].heading;
@@ -47,6 +49,11 @@ const EditNote: React.FC = () => {
     [dispatch, getIdNoteValue, heading, importance, note, load]
   );
 
+  const valueTextLanguage =
+    languageValue === "ENG"
+      ? ["Edit a note", "Edit note"]
+      : ["Změnit poznámku", "Změnit"];
+
   return (
     <>
       <Form
@@ -56,7 +63,7 @@ const EditNote: React.FC = () => {
         valueNote={noteHandler}
         valueSubmit={handleSubmit}
         valueInputs={[heading, note, importance]}
-        valueText={["Edit a note", "Edit note"]}
+        valueText={valueTextLanguage}
       />
     </>
   );
