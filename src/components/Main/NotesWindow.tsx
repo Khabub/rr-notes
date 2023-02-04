@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { useAppSelector } from "../hooks/redux";
-import { showNoteModal } from "../reducers/modalSlice";
+import { showNoteModal, showTextHeadingValue } from "../reducers/modalSlice";
 import CardNote from "../UI/CardNote";
 import NoteDetailModal from "../UI/NoteDetailModal";
 import { NoteList } from "../reducers/notesListSlice";
 import { notesList } from "../reducers/notesListSlice";
-import { useLoadNotes } from "../hooks/useLoadNotes";
+
 
 const NotesWindow: React.FC = () => {
   const [data, setData] = useState<NoteList>();
-  //const switchShow = useAppSelector(switchTextValue) as boolean;
+  const textHeadingValue = useAppSelector(showTextHeadingValue) as boolean;
+ 
   const noteDetail = useAppSelector(showNoteModal);
  
 
@@ -22,10 +23,10 @@ const NotesWindow: React.FC = () => {
 
 
   return (
-    <Container switchShow={true}>
+    <Container textHeadingValue={textHeadingValue}>
       {noteDetail && <NoteDetailModal data={data!} />}
       {notesList.length ? (
-        true && (
+        textHeadingValue && (
           <div>
             <h1 className="note-heading-h1">Your saved notes</h1>
             <p className="note-info">(click on a note to show it)</p>
@@ -53,7 +54,7 @@ const NotesWindow: React.FC = () => {
 
 export default NotesWindow;
 
-const Container = styled.div<{ switchShow: boolean }>`
+const Container = styled.div<{ textHeadingValue: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -66,7 +67,7 @@ const Container = styled.div<{ switchShow: boolean }>`
     align-items: center;
     max-width: 90vw;
     column-gap: 1rem;
-    margin-top: ${({ switchShow }) => (switchShow ? 0 : "1rem")};
+    margin-top: ${({ textHeadingValue }) => (textHeadingValue ? 0 : "1rem")};
   }
 
   .note-heading-h1,

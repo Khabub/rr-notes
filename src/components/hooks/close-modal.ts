@@ -6,11 +6,8 @@ export const useCloseModal = () => {
   const dispatch = useAppDispatch();
 
   const closeHandler = () => {
-    dispatch(setNoteModal(false));     
+    dispatch(setNoteModal(false));
   };
-
- 
-
 
   return {
     closeHandler,

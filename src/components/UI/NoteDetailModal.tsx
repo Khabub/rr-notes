@@ -15,7 +15,8 @@ const NoteDetailModal: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
   const { closeHandler } = useCloseModal();
 
-  const removeNoteHandler = () => {
+  const removeNoteHandler = (event: React.MouseEvent) => {
+    event.stopPropagation();
     dispatch(setAlertDialog(true));
     dispatch(addIDNote(props.data.id as number));
   };

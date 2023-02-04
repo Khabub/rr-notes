@@ -1,17 +1,17 @@
 import styled from "styled-components";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
-  FormControlLabel,
-  FormGroup,
+  FormControlLabel,  
   SwipeableDrawer,
   Switch,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Divider from "@mui/material/Divider";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 //import { setSwitchText, switchTextValue } from "../reducers/notesListSlice";
-import { useLoadNotes } from "../hooks/useLoadNotes";
+import {setTextHeadingValue, showTextHeadingValue} from "../reducers/modalSlice";
+
 
 interface Props {
   isOpen: boolean;
@@ -25,28 +25,22 @@ const MenuIconWrapper = ({ isOpen, onClick }: Props): JSX.Element => (
 );
 
 const NavMobile: React.FC = () => {
+  const getTextHeadingValue = useAppSelector(showTextHeadingValue);
   const [open, setOpen] = useState<boolean>(false);
-  const [switchT, setSwitchT] = useState<boolean>(true);
+  const [switchT, setSwitchT] = useState<boolean>(getTextHeadingValue);
+  
   
   const dispatch = useAppDispatch();
-  //const switchShow = useAppSelector(switchTextValue) as boolean;
+  
 
- 
-
-
-
-/*   useEffect(() => {
-    const storedValue = localStorage.getItem('switchValue');
-    if (storedValue !== null) {
-      dispatch(setSwitchText(storedValue === 'true'));
-    }
-  }, [dispatch]); */
 
   const switchHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.checked;
-    //window.localStorage.setItem('switchValue', newValue.toString());
+    const newValue = event.target.checked;    
     setSwitchT(newValue);
+    dispatch(setTextHeadingValue(newValue));
+    window.localStorage.setItem("switchValue", JSON.stringify(newValue));
   };
+
 
   return (
     <Container>
@@ -71,7 +65,7 @@ const NavMobile: React.FC = () => {
         <Divider
           sx={{ width: "100%", marginBottom: "1rem", borderBottomWidth: 5 }}
         />
-        <FormGroup>
+       
           <div className="text-above-notes">
             <FormControlLabel
               control={<Switch checked={switchT} onChange={switchHandler} />}
@@ -79,7 +73,7 @@ const NavMobile: React.FC = () => {
               labelPlacement="top"
             />
           </div>
-        </FormGroup>
+        
         <p className="created">Created by Robert Rozehnal, 2023</p>
       </SwipeableDrawerSC>
     </Container>
@@ -125,3 +119,7 @@ const SwipeableDrawerSC = styled(SwipeableDrawer)`
     }
   }
 `;
+function setTextHeading(arg0: boolean): any {
+  throw new Error("Function not implemented.");
+}
+
