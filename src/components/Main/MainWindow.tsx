@@ -51,7 +51,7 @@ const Container = styled.div<{ inputClose: boolean }>`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 2.5rem;
+  margin-top: 2.5rem;  
   animation: ${({ inputClose }) =>
     inputClose ? "hide 0.5s ease-out" : "none"};
 

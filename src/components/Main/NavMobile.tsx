@@ -29,7 +29,7 @@ interface Props {
 }
 
 const MenuIconWrapper = ({ isOpen, onClick }: Props): JSX.Element => (
-  <div style={{ marginRight: "1rem" }} onClick={onClick}>
+  <div className="menu-icon" onClick={onClick}>
     {isOpen ? <MenuOpenIcon /> : <MenuIcon />}
   </div>
 );
@@ -195,6 +195,13 @@ const Container = styled.div`
   .logo {
     padding-left: 1rem;
   }
+
+  .menu-icon {
+    margin-right: 1rem;
+    &:hover {
+      cursor: pointer;
+    }
+  }
 `;
 
 const SwipeableDrawerSC = styled(SwipeableDrawer)`
@@ -243,4 +250,3 @@ const SwipeableDrawerSC = styled(SwipeableDrawer)`
     }
   }
 `;
-
