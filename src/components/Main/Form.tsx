@@ -65,6 +65,7 @@ const Form: React.FC<Props> = ({
           placeholder={formTexts.placeholder}
           value={heading}
           onChange={valueHeading}
+          autoComplete="off"
         />
         <TextField
           sx={{ marginTop: "1rem" }}

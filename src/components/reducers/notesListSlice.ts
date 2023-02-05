@@ -11,6 +11,7 @@ export interface NoteList {
   added?: boolean;
   edited?: boolean;
   deletedNote?: boolean;
+  savedNote?: boolean;
   idNote?: number;
   
 }
@@ -38,6 +39,7 @@ export interface NoteProps {
   added: boolean;
   edited: boolean;
   deleted: boolean;
+  saved: boolean;
 }
 
 const notesListSlice = createSlice({
@@ -100,14 +102,15 @@ const notesListSlice = createSlice({
       state.added = false;
       state.edited = false;
       state.deletedNote = false;
+      state.savedNote = false;
     },
 
     addIDNote: (state, action: PayloadAction<number>) => {
       state.idNote = action.payload;
     },
-    /* setSwitchText: (state, action: PayloadAction<boolean>) => {
-      state.switchText = action.payload;
-    }, */
+    saveNote: (state, action: PayloadAction<boolean>) => {
+      state.savedNote = action.payload;        
+    }
   },
 });
 
@@ -118,17 +121,16 @@ export const {
   setAdded,
   addIDNote,
   editNote,  
+  saveNote,
 } = notesListSlice.actions;
 
 export const isNoteProps = (state: RootState): NoteProps => ({
   added: state.notesListing.added as boolean,
   edited: state.notesListing.edited as boolean,
   deleted: state.notesListing.deletedNote as boolean,
+  saved: state.notesListing.savedNote as boolean,
 });
 
 export const getIdNote = (state: RootState) => state.notesListing.idNote;
-
-/* export const switchTextValue = (state: RootState) =>
-  state.notesListing.switchText; */
 
 export default notesListSlice.reducer;

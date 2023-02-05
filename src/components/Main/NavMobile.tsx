@@ -18,6 +18,10 @@ import {
   setTextHeadingValue,
   showLanguageValue,
 } from "../reducers/modalSlice";
+import { notesList, saveNote } from "../reducers/notesListSlice";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import { openInNewTab } from "../helpers/openInNewTab";
 
 interface Props {
   isOpen: boolean;
@@ -53,6 +57,17 @@ const NavMobile: React.FC = () => {
     setSwitchT(newValue);
     dispatch(setTextHeadingValue(newValue));
     window.localStorage.setItem("switchValue", JSON.stringify(newValue));
+  };
+
+  const saveNoteHandler = () => {
+    dispatch(saveNote(true));
+    const json = JSON.stringify(notesList);
+    const blob = new Blob([json], { type: "application/json" });
+    const link = document.createElement("a");
+
+    link.href = URL.createObjectURL(blob);
+    link.download = "rr-notes_list.json";
+    link.click();
   };
 
   return (
@@ -135,19 +150,31 @@ const NavMobile: React.FC = () => {
         <div className="save-to-file">
           <p>
             {languageValue === "ENG"
-              ? "Save notes to a file"
-              : "Uložit poznámky do souboru"}
+              ? "Save notes to a file (.json)"
+              : "Uložit poznámky do souboru (.json)"}
           </p>
-          <Button variant="contained" size="small">
+          <Button onClick={saveNoteHandler} variant="contained" size="small">
             {languageValue === "ENG" ? "Save" : "Uložit"}
           </Button>
         </div>
 
-        <p className="created">
-          {languageValue === "ENG"
-            ? "Created by Robert Rozehnal, 2023"
-            : "Vytvořil Robert Rozehnal, 2023"}
-        </p>
+        <footer className="footer">
+          <div className="contact-icons">
+            <FacebookIcon
+              onClick={() =>
+                openInNewTab("https://www.facebook.com/robert.rozehnal.7")
+              }
+            />
+            <GitHubIcon
+              onClick={() => openInNewTab("https://github.com/Khabub")}
+            />
+          </div>
+          <p className="created">
+            {languageValue === "ENG"
+              ? "Created by Robert Rozehnal, 2023"
+              : "Vytvořil Robert Rozehnal, 2023"}
+          </p>
+        </footer>
       </SwipeableDrawerSC>
     </Container>
   );
@@ -181,9 +208,20 @@ const SwipeableDrawerSC = styled(SwipeableDrawer)`
     }
     .created {
       font-size: 0.7rem;
+    }
 
+    .footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       margin-top: auto;
     }
+    .contact-icons {
+      display: flex;
+      justify-content: space-evenly;
+      width: 100%;
+    }
+
     .text-above-notes,
     .language-set,
     .save-to-file {
@@ -205,3 +243,4 @@ const SwipeableDrawerSC = styled(SwipeableDrawer)`
     }
   }
 `;
+

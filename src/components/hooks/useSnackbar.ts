@@ -19,7 +19,7 @@ const snackInit: SnackInterface = {
 
 // custom hook for Snackbar, 3 types of it - created, edited, deleted
 export const useSnackbar = () => {
-  const showSnack = useAppSelector<NoteProps>(isNoteProps);
+  const showSnack = useAppSelector<NoteProps>(isNoteProps);  
   const [snackProps, setSnackProps] = useState<SnackInterface>(snackInit);
   const languageValue = useAppSelector(showLanguageValue);
   const dispatch = useAppDispatch();
@@ -30,11 +30,13 @@ export const useSnackbar = () => {
           created: "Note created!",
           edited: "Note edited!",
           deleted: "Note deleted!",
+          saved: "Note saved!",
         }
       : {
           created: "Poznámka vytvořena!",
           edited: "Poznámka změněna!",
           deleted: "Poznámka smazána!",
+          saved: "Poznámka uložena!",
         };
 
   useEffect(() => {
@@ -44,8 +46,16 @@ export const useSnackbar = () => {
       setSnackProps({ open: true, color: "warning", text: snackNote.edited });
     } else if (showSnack.deleted) {
       setSnackProps({ open: true, color: "error", text: snackNote.deleted });
+    } else if (showSnack.saved) {
+      setSnackProps({ open: true, color: "success", text: snackNote.saved });
     }
-  }, [showSnack, snackNote.created, snackNote.edited, snackNote.deleted]);
+  }, [
+    showSnack,
+    snackNote.created,
+    snackNote.edited,
+    snackNote.deleted,
+    snackNote.saved,
+  ]);
 
   const handleClose = (
     event: React.SyntheticEvent | Event,
