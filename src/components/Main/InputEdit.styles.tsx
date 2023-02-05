@@ -37,6 +37,23 @@ export const Container = styled.form`
     right: 0px;
     top: 54px;
   }
+
+  // MEDIA QUERY
+  @media (min-width: 500px) {
+    @keyframes createNoteShow {
+      0% {
+        height: 0;
+        opacity: 0;
+      }
+      60% {
+        opacity: 0;
+        height: 347px;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+  }
 `;
 
 export const RadioGroupSC = styled(RadioGroup)`

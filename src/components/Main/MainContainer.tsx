@@ -12,7 +12,7 @@ const MainContainer: React.FC = () => {
   const { load } = useLoadNotes();
 
   return (
-    <Container inputClose={inputClose}>      
+    <Container inputClose={inputClose}>
       <MainWindow />
       {load && <NotesWindow />}
     </Container>
@@ -33,6 +33,15 @@ const Container = styled.div<{ inputClose: boolean }>`
   @keyframes hideM {
     to {
       transform: translateY(-389px);
+    }
+  }
+
+  // MEDIA QUERY
+  @media (min-width: 500px) {   
+    @keyframes hideM {
+      to {
+        transform: translateY(-347px);
+      }
     }
   }
 `;
