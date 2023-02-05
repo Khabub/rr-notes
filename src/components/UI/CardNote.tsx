@@ -82,24 +82,4 @@ const Container = styled.div<Pick<NoteList, "importance">>`
     right: 10px;
     bottom: 5px;
   }
-
-  .right-side-buttons {
-    position: absolute;
-    right: 0;
-    top: 2px;
-  }
-
-  @media (max-width: 320px) {
-    .right-side-buttons {
-      display: flex;
-      flex-direction: column-reverse;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .note-content {
-      width: 65vw;
-      max-width: 380px;
-    }
-  }
 `;
