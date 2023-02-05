@@ -70,6 +70,7 @@ const FabSC = styled(Fab)<{ noteiconshow: string; noteiconshowedit: string }>`
     position: fixed;
     bottom: 32px;
     right: 32px;
+    z-index: 10;
 
     display: ${({ noteiconshow, noteiconshowedit }) =>
       noteiconshow === "true" || noteiconshowedit === "true"

@@ -49,12 +49,17 @@ const Container = styled.div<Pick<NoteList, "importance">>`
   display: flex;
   position: relative;
   width: 80vw;
-  max-width: 400px;
+  height: 90px;
+  max-width: 400px; 
   border: 2px solid;
   border-color: ${({ importance }) => importance};
   border-radius: 15px;
   box-shadow: 5px 5px 10px 5px grey;
   margin-bottom: 1rem;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   .note-content {
     width: 79vw;
